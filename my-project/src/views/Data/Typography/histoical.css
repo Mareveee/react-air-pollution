@@ -1,0 +1,39 @@
+.divBox {
+    width: 10px;
+    height: 10px;
+    background: #ddd;
+    position: relative;
+    display: inline;
+    
+}
+a { cursor: pointer; }
+
+.divBox label {
+    display: block;
+    width: 20px;
+    height: 20px;
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    transition: all .2s ease;
+    cursor: pointer;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    z-index: 1;
+    /* 
+    use this background transparent to check the value of checkbox 
+    background: transparent;
+    */
+    background: rgb(236, 234, 234);
+    -webkit-box-shadow:inset 0px 1px 3px rgba(36, 34, 34, 0.5);
+    -moz-box-shadow:inset 0px 1px 3px rgba(58, 57, 57, 0.5);
+    box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+}
+.divBox input[type=checkbox]:checked + label {
+    background: rgb(26, 161, 185);
+}
+.txtparam{
+    margin-left: 10px
+}

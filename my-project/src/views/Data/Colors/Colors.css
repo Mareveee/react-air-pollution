@@ -1,0 +1,92 @@
+.bg-aqi2{
+    background-color: #66CC66;
+    color: aliceblue;
+}
+.bg-aqi1{
+    background-color: #00BFFF;
+    color: aliceblue;
+}
+.bg-aqi3{
+    background-color: #FFCC33;
+    color: aliceblue;
+}
+.bg-aqi4{
+    background-color: #FF9933;
+    color: aliceblue;
+}
+.bg-aqi5{
+    background-color: #FF0033;
+    color: aliceblue;
+}
+.Raderaqi{
+    background-color: #88d8bb;
+    color: aliceblue;
+}
+.bgpredict{
+    background-color: #999999;
+    color: aliceblue;
+}
+.txt{
+    text-align: left;
+    font-size: 60px;
+}
+.txt1{
+    text-align: left;
+    font-size: 50px;
+}
+.text-aqi{
+    text-align: left;
+    font-size: 22px
+}
+.text-aqi0{
+    text-align: left;
+    font-size: 20px
+}
+.text-aqi1{
+    text-align: center;
+    font-size: 18px
+}
+.text-detailgreen{
+    text-align: left;
+    font-size: 15px;
+    color: #66CC66; 
+}
+.text-detailblue{
+    text-align: left;
+    font-size: 15px;
+    color: #00BFFF; 
+}
+.text-detailyellow{
+    text-align: left;
+    font-size: 15px;
+    color: #FFCC33; 
+}
+.text-detailorange{
+    text-align: left;
+    font-size: 15px;
+    color: #FF9933; 
+}
+.text-detailred{
+    text-align: left;
+    font-size: 15px;
+    color: #FF0033; 
+}
+.bgaqi1h{
+    background-color: #CCCCCC;
+    color: aliceblue;
+}
+
+.status-aqi2{
+    background-color: #66CC66;
+    color: aliceblue;
+    width: 150px;
+    height: 30px;
+    font-size: 16px
+}
+.status-aqi1{
+    background-color: #00BFFF;
+    color: aliceblue;
+    width: 150px;
+    height: 30px;
+    font-size: 16px
+}

@@ -1,0 +1,134 @@
+.bg-awesome {
+    background-color: #FF9900;
+  }
+.bg-red1 {
+    background-color: red;
+  }
+
+  .CircularProgressbar .CircularProgressbar-background {
+    fill: white;
+  }
+  
+  .CircularProgressbar .CircularProgressbar-text {
+    fill: white;
+  }
+  
+  .CircularProgressbar .CircularProgressbar-path {
+    stroke: white;
+  }
+  
+  .CircularProgressbar .CircularProgressbar-trail {
+    stroke: transparent;
+  }
+
+.CircularProgressbar.red .CircularProgressbar-background {
+    fill: white;
+  }
+  
+  .CircularProgressbar.red .CircularProgressbar-text {
+    fill: red;
+  }
+  
+  .CircularProgressbar.red .CircularProgressbar-path {
+    stroke: red;
+  }
+  
+  .CircularProgressbar.red .CircularProgressbar-trail {
+    stroke: transparent;
+  }
+
+  .CircularProgressbar.blue .CircularProgressbar-background {
+    fill: #ffffff;
+  }
+  
+  .CircularProgressbar.blue .CircularProgressbar-text {
+    fill: #33CCFF;
+  }
+  
+  .CircularProgressbar.blue .CircularProgressbar-path {
+    stroke: #33CCFF;
+  }
+  
+  .CircularProgressbar.blue .CircularProgressbar-trail {
+    stroke: transparent;
+  }
+
+  .CircularProgressbar.green .CircularProgressbar-background {
+    fill: #ffffff;
+  }
+  
+  .CircularProgressbar.green .CircularProgressbar-text {
+    fill: #00CC33;
+  }
+  
+  .CircularProgressbar.green .CircularProgressbar-path {
+    stroke: #00CC33;
+  }
+  
+  .CircularProgressbar.green .CircularProgressbar-trail {
+    stroke: transparent;
+  }
+
+  .CircularProgressbar.yellow .CircularProgressbar-background {
+    fill: #ffffff;
+  }
+  
+  .CircularProgressbar.yellow .CircularProgressbar-text {
+    fill: 	#FFCC00;
+  }
+  
+  .CircularProgressbar.yellow .CircularProgressbar-path {
+    stroke: 	#FFCC00;
+  }
+  
+  .CircularProgressbar.yellow .CircularProgressbar-trail {
+    stroke: transparent;
+  }
+
+  .CircularProgressbar.orange .CircularProgressbar-background {
+    fill: #ffffff;
+  }
+  
+  .CircularProgressbar.orange .CircularProgressbar-text {
+    fill: 	#FF9933;
+  }
+  
+  .CircularProgressbar.orange .CircularProgressbar-path {
+    stroke: 	#FF9933;
+  }
+  
+  .CircularProgressbar.orange .CircularProgressbar-trail {
+    stroke: transparent;
+  }
+
+  .CircularProgressbar.white .CircularProgressbar-text {
+    fill: 	#ffffff;
+  }
+  
+  .CircularProgressbar.white .CircularProgressbar-path {
+    stroke: 	#ffffff;
+  }
+  
+  .CircularProgressbar.white .CircularProgressbar-trail {
+    stroke: transparent;
+  }
+  .textaqired{
+    font-size: 18px;
+    color: red
+  }
+  .textaqiblue{
+    font-size: 18px;
+    color: #33CCFF
+  }
+  .textaqigreen{
+    font-size: 18px;
+    color: #00CC33
+  }
+  .textaqiyellow{
+    font-size: 18px;
+    color: #FFCC00
+  }
+  .textaqiorange{
+    font-size: 18px;
+    color: #FF9933
+  }
