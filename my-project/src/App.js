@@ -4,7 +4,6 @@ import './App.scss';
 
 // Containers
 import { DefaultLayout } from './containers';
-// Pages
 
 
 // import { renderRoutes } from 'react-router-config';

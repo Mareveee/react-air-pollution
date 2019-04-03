@@ -1,5 +1,4 @@
-import React, { Component, lazy, Suspense } from 'react';
-import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import React, { Component } from 'react';
 import './Dashboard.css'
 import {Line} from 'react-chartjs-2';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -10,12 +9,9 @@ import {
   Col,
   Row,
   CardHeader,
-  FormGroup,
-  Input,
-  Label
 } from 'reactstrap';
-import Maps from './Maps'
 import axios from 'axios';
+import Maps from './Maps'
 
 const brandPrimary = getStyle('--primary')
 const brandInfo = getStyle('--info')
@@ -42,29 +38,15 @@ class DashboardShow extends Component{
       AQI:0
     }
   }
-  componentWillMount(){
-    let i
-    axios.get('http://54.169.105.27:1880/device')
-    .then(response => {
-      for(i=0;i<response.data.length;i++){
-        this.setState({locationName:this.state.locationName.concat([response.data[i].deviceName])})
-        this.setState({locationID:this.state.locationID.concat([response.data[i]._id])})
-      }
-    })
-  }
   getdata = (props,location) =>{
-    console.log(props)
+    console.log("getdata : ",props)
     if(props === undefined){
       let urldata = 'http://54.169.105.27:1880/datanewest?deviceName='.concat(location)
       let urlaqi = 'http://54.169.105.27:1880/AQInewest?deviceName='.concat(location)
-      console.log(urldata)
-      console.log(urlaqi)
       let i
-      let x
       axios.get(urldata)
       .then(response => {
-        if(response.data.length != 0){
-          console.log(response.data.length)
+        if(response.data.length !== 0){
           if(response.data.length>=7){
               for(i=6;i>=0;i--){
               this.state.temperature.push(response.data[i].temperature) //change temp to pm25
@@ -89,6 +71,12 @@ class DashboardShow extends Component{
           }
           else{
               for(i=7-response.data.length;i>0;i--){
+                this.state.temperature.push(0) //change temp to pm25
+                this.state.temperature.shift()
+                this.state.humidity.push(0) //change temp to pm25
+                this.state.humidity.shift()
+                this.state.pressure.push(0) //change temp to pm25
+                this.state.pressure.shift()
                 this.state.pm25.push(0) //change temp to pm25
                 this.state.pm25.shift()
                 this.state.pm10.push(0) //change temp to pm10
@@ -103,6 +91,12 @@ class DashboardShow extends Component{
                 this.state.so2.shift()
               }
               for(i=response.data.length-1;i>=0;i--){
+                this.state.temperature.push(response.data[i].temperature) //change temp to pm25
+                this.state.temperature.shift()
+                this.state.humidity.push(response.data[i].humidity) //change temp to pm25
+                this.state.humidity.shift()
+                this.state.pressure.push(response.data[i].pressure) //change temp to pm25
+                this.state.pressure.shift()
                 this.state.pm25.push(response.data[i].PM25) //change temp to pm25
                 this.state.pm25.shift()
                 this.state.pm10.push(response.data[i].PM10) //change temp to pm10
@@ -121,20 +115,20 @@ class DashboardShow extends Component{
       })
       axios.get(urlaqi)
       .then(response => {
-        if(response.data.length != 0){
+        if(response.data.length !== 0){
           if(response.data.length>=7){
               for(i=6;i>=0;i--){
-              this.state.aqi.push(response.data[i].AQINOW) //change temp to pm25
+              this.state.aqi.push(response.data[i].AQINOW)
               this.state.aqi.shift()
           }
           }
           else{
               for(i=7-response.data.length;i>0;i--){
-                this.state.aqi.push(0) //change temp to pm25
+                this.state.aqi.push(0)
                 this.state.aqi.shift()
               }
               for(i=response.data.length-1;i>=0;i--){
-                this.state.aqi.push(response.data[i].AQINOW) //change temp to pm25
+                this.state.aqi.push(response.data[i].AQINOW)
                 this.state.aqi.shift()
               }
           }
@@ -142,10 +136,7 @@ class DashboardShow extends Component{
       })
     }
     else if(props !== undefined){
-      console.log("Devicename",props.deviceName,"location",location)
-      console.log("Devicename",props.deviceName,"location",location)
-    if(props.deviceName == location){
-      console.log(props.deviceName)
+    if(props.deviceName === location){
 
       this.state.temperature[0] = props.temp1
       this.state.temperature[1] = props.temp2
@@ -225,7 +216,7 @@ class DashboardShow extends Component{
       this.state.aqi[3] = props.aqi4
       this.state.aqi[4] = props.aqi5
       this.state.aqi[5] = props.aqi6
-      this.state.aqi[6] = props.aqinow
+      this.state.aqi[6] = props.AQINOW
     }
     else{
       console.log(props.deviceName)
@@ -249,13 +240,12 @@ class DashboardShow extends Component{
     else if(props > 200){
       color = '#FF0033'
     }
-    else if(props = 0){
-      color = 'white'
+    else{
+      color = '#00BFFF'
     }
     return color
   }
     render() {
-      console.log(this.state.aqi)
       this.getdata(this.props.data.data[0],this.props.location)//location change num in array
       const sparkLineChartData = [
         {
@@ -364,16 +354,7 @@ class DashboardShow extends Component{
             }]
           };
 
-          var icon = {
-            path: "M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z", // url
-            fillColor: this.coloraqinow(this.state.aqi[6]),
-            fillOpacity: 1,
-            strokeColor:this.coloraqinow(this.state.aqi[6]),
-            strokeWeight: 1,
-            scale: 1,
-            scaledSize: new this.props.google.maps.Size(90, 42), // scaled size
-        };
-        const coords = { lat: 13.72, lng: 100.785 };
+          
         return (
           <div className="animated fadeIn">
             <Row >
@@ -421,7 +402,7 @@ class DashboardShow extends Component{
             <Col xs="12" md="6" xl="5"></Col>
             <Col xs="12" md="6" xl="11">
             <Row>
-            <Col sm="4">
+            <Col xs="12" md="6" xl="4">
                         <div className="callout callout-info">
                           <small className="text-muted"><strong>Dust PM2.5</strong></small>
                           <br />
@@ -431,7 +412,7 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                       </Col>
-                      <Col sm="4">
+                      <Col xs="12" md="6" xl="4">
                         <div className="callout callout-danger">
                           <small className="text-muted"><strong>Carbonmonoxide</strong></small>
                           <br />
@@ -441,7 +422,7 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                       </Col>
-                      <Col sm="4">
+                      <Col xs="12" md="6" xl="4">
                         <div className="callout callout-warning">
                           <small className="text-muted"><strong>Nitrogendioxide</strong></small>
                           <br />
@@ -451,7 +432,7 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                       </Col>
-                      <Col sm="4">
+                      <Col xs="12" md="6" xl="4">
                         <div className="callout callout-info">
                           <small className="text-muted"><strong>Dust PM10</strong></small>
                           <br />
@@ -461,7 +442,7 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                       </Col>
-                      <Col sm="4">
+                      <Col xs="12" md="6" xl="4">
                         <div className="callout callout-danger">
                           <small className="text-muted"><strong>OZone</strong></small>
                           <br />
@@ -471,7 +452,7 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                       </Col>
-                      <Col sm="4">
+                      <Col xs="12" md="6" xl="4">
                         <div className="callout callout-warning">
                           <small className="text-muted"><strong>Sulferdioxide</strong></small>
                           <br />
@@ -488,19 +469,7 @@ class DashboardShow extends Component{
                 </Card>
                 </Col>
             </Row>
-            <Row><CardBody>
-            <Col xs="12" sm="6" lg="1"></Col>
-            <Col xs="12" sm="6" lg="2">
-            <Map initialCenter={coords}
-                 google={this.props.google}
-                 style={{width: 980, height: 500, position: 'relative'}}
-                 zoom={14}>
-              <Marker
-                position={{lat: 13.7289668, lng: 100.77546009999999}}
-                icon={icon}/>
-            </Map>
-            </Col></CardBody>
-            </Row>
+            <Maps AQI={this.coloraqinow(this.state.aqi[6])}/>
             <Row>
               <div></div>
             </Row>
@@ -509,6 +478,4 @@ class DashboardShow extends Component{
       }
 }
 
-export default GoogleApiWrapper({
-  apiKey: ("AIzaSyC__lyq6VWQhcoffkhsFVf3US2Jfa138ng")
-})(DashboardShow)
+export default DashboardShow

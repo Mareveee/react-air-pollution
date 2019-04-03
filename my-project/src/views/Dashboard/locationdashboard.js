@@ -38,7 +38,6 @@ componentWillMount(){
     }
     this.setState({location:this.state.locationName[0]})
   })
-
 }
 
 handleLocationChange = () => {
@@ -47,7 +46,6 @@ handleLocationChange = () => {
   }
 
   render() {
-    console.log(this.state.location)
     return (
       <div className="animated fadeIn">
       <Row>
@@ -60,7 +58,7 @@ handleLocationChange = () => {
                     </FormGroup>
                   </Col>
      </Row>
-     <DashboardShow data={this.props.data} location={this.state.location}/>
+     <DashboardShow data={this.props.data} location={this.state.location} temp={this.state.temperature}/>
       </div>
     );
   }

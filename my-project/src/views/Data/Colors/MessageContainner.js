@@ -1,10 +1,8 @@
 import { subscribe } from 'mqtt-react';
 import React from 'react'
-import Showpredict from './Showpredict'
 import Locationpredict from './locationpredict'
 
 function MessageList(props){
-      console.log(props)
       return (<Locationpredict data={props}/>);
     //if(object != undefined){
       //  const data = Object.keys(object);

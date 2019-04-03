@@ -70,7 +70,6 @@ class Showtable extends React.Component {
         this.setState({endindex:endIndex})
     }
     componentWillMount(){
-      console.log(this.props.deviceEUI)
       var t 
       var datef = "date1="
       var datel = "&date2="
@@ -219,7 +218,7 @@ class Showtable extends React.Component {
       if(this.props.checkTemp){
         showtemp = <td>
         {this.state.pageOfItems.map(item =>
-            <tr><td><center>{this.state.temperature[item.id]}</center></td></tr>)}
+            <tr><td><center>{this.state.temperature[item.id-1]}</center></td></tr>)}
       </td>
         headTemp = <th>Temperature</th>
         valuetemp = <tr>
@@ -232,7 +231,7 @@ class Showtable extends React.Component {
       if(this.props.checkHu){
         showhu = <td>
         {this.state.pageOfItems.map(item =>
-            <tr><td><center>{this.state.humidity[item.id]}</center></td></tr>)}
+            <tr><td><center>{this.state.humidity[item.id-1]}</center></td></tr>)}
       </td>
         headHu = <th>Humidity</th>
         valuehu = <tr>
@@ -246,7 +245,7 @@ class Showtable extends React.Component {
       if(this.props.checkAir){
         showair = <td>
         {this.state.pageOfItems.map(item =>
-            <tr><td><center>{this.state.pressure[item.id]}</center></td></tr>)}
+            <tr><td><center>{this.state.pressure[item.id-1]}</center></td></tr>)}
       </td>
           headAir = <th>Air Pressure</th>
           valueair = <tr>
@@ -259,7 +258,7 @@ class Showtable extends React.Component {
       if(this.props.checkpm25){
         showpm25 = <td>
         {this.state.pageOfItems.map(item =>
-            <tr><td><center>{this.state.pm25[item.id]}</center></td></tr>)}
+            <tr><td><center>{this.state.pm25[item.id-1]}</center></td></tr>)}
       </td>
           headPm25 = <th>PM2.5</th>
           valuepm25 = <tr>
@@ -272,7 +271,7 @@ class Showtable extends React.Component {
       if(this.props.checkpm10){
         showpm10 = <td>
         {this.state.pageOfItems.map(item =>
-            <tr><td><center>{this.state.pm10[item.id]}</center></td></tr>)}
+            <tr><td><center>{this.state.pm10[item.id-1]}</center></td></tr>)}
       </td>
           headPm10 = <th>pm10</th>
           valuepm10 = <tr>
@@ -285,7 +284,7 @@ class Showtable extends React.Component {
       if(this.props.checko3){
         showo3 = <td>
         {this.state.pageOfItems.map(item =>
-            <tr><td><center>{this.state.o3[item.id]}</center></td></tr>)}
+            <tr><td><center>{this.state.o3[item.id-1]}</center></td></tr>)}
       </td>
           headO3 = <th>O3</th>
           valueo3 = <tr>
@@ -298,7 +297,7 @@ class Showtable extends React.Component {
       if(this.props.checkco){
         showco = <td>
         {this.state.pageOfItems.map(item =>
-            <tr><td><center>{this.state.co[item.id]}</center></td></tr>)}
+            <tr><td><center>{this.state.co[item.id-1]}</center></td></tr>)}
       </td>
           headCo = <th>CO</th>
           valueco = <tr>
@@ -311,7 +310,7 @@ class Showtable extends React.Component {
       if(this.props.checkno2){
         showno2 = <td>
         {this.state.pageOfItems.map(item =>
-            <tr><td><center>{this.state.no2[item.id]}</center></td></tr>)}
+            <tr><td><center>{this.state.no2[item.id-1]}</center></td></tr>)}
       </td>
           headNo2 = <th>NO2</th>
           valueno2 = <tr>
@@ -324,7 +323,7 @@ class Showtable extends React.Component {
       if(this.props.checkso2){
         showso2 = <td>
         {this.state.pageOfItems.map(item =>
-            <tr><td><center>{this.state.so2[item.id]}</center></td></tr>)}
+            <tr><td><center>{this.state.so2[item.id-1]}</center></td></tr>)}
       </td>
           headSo2 = <th>SO2</th>
           valueso2 = <tr>
@@ -357,11 +356,11 @@ class Showtable extends React.Component {
                     <tbody>
                     <td>
                       {this.state.pageOfItems.map(item =>
-                          <tr><td><center>{this.state.date[item.id]}</center></td></tr>)}
+                          <tr><td><center>{this.state.date[item.id-1]}</center></td></tr>)}
                     </td>
                     <td>
                       {this.state.pageOfItems.map(item =>
-                          <tr><td><center>{this.state.time[item.id]}</center></td></tr>)}
+                          <tr><td><center>{this.state.time[item.id-1]}</center></td></tr>)}
                     </td>
                     {showtemp}{showhu}{showair}{showpm25}{showpm10}{showo3}{showco}{showno2}{showso2}
                     </tbody>

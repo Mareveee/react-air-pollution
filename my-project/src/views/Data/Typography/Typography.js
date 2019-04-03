@@ -104,7 +104,6 @@ handleCheckedaqi () {
 }
 handleLocationChange = () => {
   let selectedValue = document.getElementById("location").value;
-  console.log(this.state.locationName.indexOf(selectedValue))
   if(selectedValue === ''){
     this.setState({ selectedLocation: undefined });
   }

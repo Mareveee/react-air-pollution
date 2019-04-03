@@ -1,25 +1,15 @@
 import React, { Component } from 'react';
-import {Bar, Line} from 'react-chartjs-2';
 import {
-  Button,
-  Card,
-  CardBody,
   Col,
   Row,
-  Progress,
-  CardHeader,
-  Table,
-  Badge,
   FormGroup,
   Label,
   Input
 } from 'reactstrap';
 import './Colors.css'
-import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './Custom.css';
 import axios from 'axios'
-import { PassThrough } from 'stream';
 import Showpredict from './Showpredict'
 
 class Locationpredict extends Component {
@@ -59,7 +49,6 @@ handleLocationChange = () => {
   }
 
   render() {
-    console.log(this.state.location)
     return (
       <div className="animated fadeIn">
       <Row>

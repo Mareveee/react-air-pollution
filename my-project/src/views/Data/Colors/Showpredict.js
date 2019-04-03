@@ -28,7 +28,7 @@ class Showpredict extends Component {
   constructor(props){
     super(props);
     this.state = {
-      timepredict24:['06','09','12','15','18'],
+      timepredict24:['06:0','09:0','12:0','15:0','18:0'],
       predict24:[0,0,0,0,0],
       aqi:[0,0,0,0,0,0,0],
       timeaqi:[0,0,0,0,0,0,0],
@@ -123,7 +123,7 @@ showso2 = () => {
 }
 ColorGraphaqi(props){
   let color
-  if(props > 0 & props <=25){
+  if(props >= 0 & props <=25){
     color = '#00BFFF'
   }
   else if(props > 25 & props <=50){
@@ -256,7 +256,7 @@ ColorGraphSO2 = (props)=>{
 }
 coloraqinow = (props)=>{
   let color
-  if(props > 0 & props <=25){
+  if(props >= 0 & props <=25){
     color = 'blue'
   }
   else if(props > 25 & props <=50){
@@ -275,7 +275,7 @@ coloraqinow = (props)=>{
 }
 txtaqinow = (props) =>{
   let txt
-  if(props > 0 & props <=25){
+  if(props >= 0 & props <=25){
     txt = 'Very good'
   }
   else if(props > 25 & props <=50){
@@ -408,70 +408,60 @@ ColorSO2 = (props) =>{
 }
 txtPredict1hr = (props) =>{
   let txt
-  if(props == 1){
+  if(props === 1){
     txt = 'Very good'
   }
-  else if(props ==2){
+  else if(props ===2){
     txt = 'Good'
   }
-  else if(props ==3){
+  else if(props ===3){
     txt = 'Moderate'
   }
-  else if(props ==4){
+  else if(props ===4){
     txt = 'Unhealthy for Sensitive Groups'
   }
-  else if(props ==5){
+  else if(props ===5){
     txt = 'Unhealthy'
   }
   return txt
 }
 txtRangePredict1hr = (props) =>{
   let txt
-  if(props == 1){
+  if(props === 1){
     txt = '0-25'
   }
-  else if(props ==2){
+  else if(props ===2){
     txt = '26-50'
   }
-  else if(props ==3){
+  else if(props ===3){
     txt = '51-100'
   }
-  else if(props ==4){
+  else if(props ===4){
     txt = '101-150'
   }
-  else if(props ==5){
+  else if(props ===5){
     txt = '>150'
   }
   return txt
 }
 
-componentWillMount(){
-  let i
-  axios.get('http://54.169.105.27:1880/device')
-  .then(response => {
-    for(i=0;i<response.data.length;i++){
-      this.setState({locationName:this.state.locationName.concat([response.data[i].deviceName])})
-      this.setState({locationID:this.state.locationID.concat([response.data[i]._id])})
-    }
-    this.setState({location:this.state.locationName[0]})
-  })
 
-}
 
 handleLocationChange = () => {
   let selectedValue = document.getElementById("location").value;
   this.setState({location:selectedValue})
 }
 
+
 getdata = (props,location) =>{
+  console.log("getdata: ",props)
   if(props === undefined){
     let urldata = 'http://54.169.105.27:1880/datanewest?deviceName='.concat(location)
     let urlaqi = 'http://54.169.105.27:1880/AQInewest?deviceName='.concat(location)
     let i
-    let x
     axios.get(urldata)
     .then(response => {
-      if(response.data.length != 0){
+      if(response.data.length !== 0){
         if(response.data.length>=7){
             for(i=6;i>=0;i--){
             this.state.pm25.push(response.data[i].PM25) //change temp to pm25
@@ -528,30 +518,30 @@ getdata = (props,location) =>{
     })
     axios.get(urlaqi)
     .then(response => {
-      if(response.data.length != 0){
+      if(response.data.length !== 0){
         for(i=response.data.length-1;i>=0;i--){
-          if(response.data[i].time.slice(11,13) == this.state.timepredict24[0]){
+          if(response.data[i].time.slice(11,15) === this.state.timepredict24[0]){
             this.state.predict24[0] = response.data[i].AQI24HR
           }
-          else if(response.data[i].time.slice(11,13) == this.state.timepredict24[1]){
+          else if(response.data[i].time.slice(11,15) === this.state.timepredict24[1]){
             this.state.predict24[1] = response.data[i].AQI24HR
           }
-          else if(response.data[i].time.slice(11,13) == this.state.timepredict24[2]){
+          else if(response.data[i].time.slice(11,15) === this.state.timepredict24[2]){
             this.state.predict24[2] = response.data[i].AQI24HR
           }
-          else if(response.data[i].time.slice(11,13) == this.state.timepredict24[3]){
+          else if(response.data[i].time.slice(11,15) === this.state.timepredict24[3]){
             this.state.predict24[3] = response.data[i].AQI24HR
           }
-          else if(response.data[i].time.slice(11,13) == this.state.timepredict24[4]){
+          else if(response.data[i].time.slice(11,15) === this.state.timepredict24[4]){
             this.state.predict24[4] = response.data[i].AQI24HR
           }
         }
-        this.state.predict1hr = response.data[0].AQI1HR
-        this.state.predict24hr = response.data[0].AQI24HR
-        this.state.time24hr = response.data[0].time.slice(11,16)
-        this.state.time1hr = String(Number(response.data[0].time.slice(11,13))+1).concat(response.data[0].time.slice(13,16))
-        if(String(Number(response.data[0].time.slice(11,13))+1) == '24'){
-          this.state.time1hr = '00'.concat(response.data[0].time.slice(13,16))
+        this.state.predict1hr=response.data[0].AQI1HR
+        this.state.predict24hr=response.data[0].AQI24HR
+        this.state.time24hr=response.data[0].time.slice(11,16)
+        this.state.time1hr=String(Number(response.data[0].time.slice(11,13))+1).concat(response.data[0].time.slice(13,16))
+        if(String(Number(response.data[0].time.slice(11,13))+1) === '24'){
+          this.state.time1hr='00'.concat(response.data[0].time.slice(13,16))
         }
         if(response.data.length>=7){
             for(i=6;i>=0;i--){
@@ -581,28 +571,29 @@ getdata = (props,location) =>{
 
   }
   else if(props !== undefined){
-    if(props.deviceName == location){
-      if(props.timenow.slice(11,13) == this.state.timepredict24[0]){
+    if(props.deviceName === location){
+      if(props.timenow.slice(11,15) === this.state.timepredict24[0]){
         this.state.predict24[0] = props.timenow.AQI24HR
       }
-      else if(props.timenow.slice(11,13) == this.state.timepredict24[1]){
+      else if(props.timenow.slice(11,15) === this.state.timepredict24[1]){
         this.state.predict24[1] = props.timenow.AQI24HR
       }
-      else if(props.timenow.slice(11,13) == this.state.timepredict24[2]){
+      else if(props.timenow.slice(11,15) === this.state.timepredict24[2]){
         this.state.predict24[2] = props.timenow.AQI24HR
       }
-      else if(props.timenow.slice(11,13) == this.state.timepredict24[3]){
+      else if(props.timenow.slice(11,15) === this.state.timepredict24[3]){
         this.state.predict24[3] = props.timenow.AQI24HR
       }
-      else if(props.timenow.slice(11,13) == this.state.timepredict24[4]){
+      else if(props.timenow.slice(11,15) === this.state.timepredict24[4]){
         this.state.predict24[4] = props.timenow.AQI24HR
       }
-
-      this.state.predict1hr = props.AQI1hrNOW
-      this.state.predict24hr = props.AQI24hrNOW
-      this.state.time24hr = props.timenow.slice(11,16)
-      this.state.time1hr = String(Number(props.timenow.slice(11,13))+1).concat(props.timenow.slice(13,16)) 
-
+      this.state.predict1hr=props.AQI1hrNOW
+      this.state.predict24hr=props.AQI24hrNOW
+      this.state.time24hr=props.timenow.slice(11,16)
+      this.state.time1hr=String(Number(props.timenow.slice(11,13))+1).concat(props.timenow.slice(13,16))
+      if(String(Number(props.timenow.slice(11,13))+1) === '24'){
+        this.statetime1hr='00'.concat(props.timenow.slice(13,16))
+      }
       this.state.aqi[6] = props.aqi1
       this.state.aqi[5] = props.aqi2
       this.state.aqi[4] = props.aqi3
@@ -681,11 +672,18 @@ getdata = (props,location) =>{
     }
   }
 }
+settext=(props)=>{
+  if(props === 201){
+    return '>201'
+  }
+  else{
+    return String(props)
+  }
+}
   render() {
     this.getdata(this.props.data.data[0],this.props.location)
     var txt = "textaqi"
-    
-  const coords = { lat: 13.72, lng: 100.785 };
+    let txtaqi = null
     let showdata=null;
     const dataaqi = {
       labels:[this.state.timeaqi[0],this.state.timeaqi[1],this.state.timeaqi[2],this.state.timeaqi[3],this.state.timeaqi[4],this.state.timeaqi[5],this.state.timeaqi[6]],  
@@ -792,6 +790,7 @@ getdata = (props,location) =>{
       showdata=<Bar data={dataso2}
                 height={190}/>
     }
+    txtaqi =  this.settext(this.state.aqi[6])
     return (
       <div className="animated fadeIn">
       <Row>
@@ -807,7 +806,7 @@ getdata = (props,location) =>{
                     className={this.coloraqinow(this.state.aqi[6])}
                     background
                     percentage={this.state.aqi[6]*100/201}
-                    text={this.state.aqi[6]}/>
+                    text={txtaqi}/>
                 <Row>
                   <Col xs="12" sm="6" lg="4">
                   </Col>
@@ -888,7 +887,7 @@ getdata = (props,location) =>{
                       <Progress className="progress-xs" color={this.ColorSO2(this.state.so2[6])} value={this.state.so2[6]*100/401} />
                 </Col>
               </Row><br/>
-              <Col xs="12" sm="6" lg="3"><h1></h1></Col>
+              <Col xs="12" sm="6" lg="3"></Col>
               </CardBody></Card>
         </Col>
       <Col xs="12" sm="6" lg="7">
@@ -961,35 +960,35 @@ getdata = (props,location) =>{
                     </tr>
 
                     <tr>
-                    <td>Tomorrow {this.state.timepredict24[0]}:00</td>
+                    <td>Tomorrow {this.state.timepredict24[0]}0</td>
                     <td>{this.txtRangePredict1hr(this.state.predict24[0])}</td>
                     <td>
                       <center><Badge className={"bg-aqi".concat(this.state.predict24[0])}>{this.txtPredict1hr(this.state.predict24[0])}</Badge></center>
                     </td>
                     </tr>
                     <tr>
-                    <td>Tomorrow {this.state.timepredict24[1]}:00</td>
+                    <td>Tomorrow {this.state.timepredict24[1]}0</td>
                     <td>{this.txtRangePredict1hr(this.state.predict24[1])}</td>
                     <td>
                       <center><Badge className={"bg-aqi".concat(this.state.predict24[1])}>{this.txtPredict1hr(this.state.predict24[1])}</Badge></center>
                     </td>
                     </tr>
                     <tr>
-                    <td>Tomorrow {this.state.timepredict24[2]}:00</td>
+                    <td>Tomorrow {this.state.timepredict24[2]}0</td>
                     <td>{this.txtRangePredict1hr(this.state.predict24[2])}</td>
                     <td>
                       <center><Badge className={"bg-aqi".concat(this.state.predict24[2])}>{this.txtPredict1hr(this.state.predict24[2])}</Badge></center>
                     </td>
                     </tr>
                     <tr>
-                    <td>Tomorrow {this.state.timepredict24[3]}:00</td>
+                    <td>Tomorrow {this.state.timepredict24[3]}0</td>
                     <td>{this.txtRangePredict1hr(this.state.predict24[3])}</td>
                     <td>
                       <center><Badge className={"bg-aqi".concat(this.state.predict24[3])}>{this.txtPredict1hr(this.state.predict24[3])}</Badge></center>
                     </td>
                     </tr>
                     <tr>
-                    <td>Tomorrow {this.state.timepredict24[4]}:00</td>
+                    <td>Tomorrow {this.state.timepredict24[4]}0</td>
                     <td>{this.txtRangePredict1hr(this.state.predict24[4])}</td>
                     <td>
                       <center><Badge className={"bg-aqi".concat(this.state.predict24[4])}>{this.txtPredict1hr(this.state.predict24[4])}</Badge></center>

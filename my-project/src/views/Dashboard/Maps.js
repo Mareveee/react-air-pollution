@@ -28,7 +28,7 @@ class Maps extends Component{
                  style={{width: 980, height: 500, position: 'relative'}}
                  zoom={14}>
               <Marker
-                position={{lat: this.props.Latitude, lng: this.props.Longitude}}
+                position={{lat: 13.7289668, lng: 100.77546009999999}}
                 icon={icon}/>
             </Map>
             </Col></CardBody>

@@ -37,7 +37,6 @@ class Showaqitable extends React.Component {
         this.setState({endindex:endIndex})
     }
     componentWillMount(){
-      console.log(this.props.deviceName)
       var t 
       var datef = "date1="
       var datel = "&date2="
@@ -47,10 +46,8 @@ class Showaqitable extends React.Component {
       get = get.concat(datef,datel)
       let i;
       let totalaqi = 0
-      console.log(get)
       axios.get(get)
       .then(response =>{
-          console.log(response)
         t = response.data.length
         this.setState({exampleItems: [...Array(t).keys()].map(i => ({ id: (i+1)})),})
         for(i=0;i<response.data.length;i++){
@@ -75,23 +72,6 @@ class Showaqitable extends React.Component {
     
  
     render() {
-      let show = null
-      let headaqi = null
-      let showaqi = []
-      let valueaqi = null
-      if(this.props.checkaqi){
-        showaqi = <td>
-        {this.state.pageOfItems.map(item =>
-            <tr><td><center>{this.state.aqi[item.id]}</center></td></tr>)}
-      </td>
-        headaqi = <th>AQI</th>
-        valueaqi = <tr>
-        <td><strong>AQI</strong></td>
-        <td>{this.state.aqiMin}</td> 
-        <td>{this.state.aqiMax}</td>
-        <td>{this.state.aqiAvg}</td>    
-        </tr>
-      }
         return (
           <div className="animated fadeIn">
           <div><Row>
@@ -110,15 +90,15 @@ class Showaqitable extends React.Component {
                       <tbody>
                       <td>
                         {this.state.pageOfItems.map(item =>
-                            <tr><td><center>{this.state.date[item.id]}</center></td></tr>)}
+                            <tr><td><center>{this.state.date[item.id-1]}</center></td></tr>)}
                       </td>
                       <td>
                         {this.state.pageOfItems.map(item =>
-                            <tr><td><center>{this.state.time[item.id]}</center></td></tr>)}
+                            <tr><td><center>{this.state.time[item.id-1]}</center></td></tr>)}
                       </td>
                       <td>
                         {this.state.pageOfItems.map(item =>
-                            <tr><td><center>{this.state.aqi[item.id]}</center></td></tr>)}
+                            <tr><td><center>{this.state.aqi[item.id-1]}</center></td></tr>)}
                         </td>
                       </tbody>
                     </Table>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button,Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
 import Showtable from './Showtable'
 
 class Showdata extends Component{

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink } from 'reactstrap';
+import {Nav, NavItem, NavLink } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import logo from '../../assets/img/brand/logo.svg'
-import sygnet from '../../assets/img/brand/sygnet.svg'
+import {AppSidebarToggler } from '@coreui/react';
 
 const propTypes = {
   children: PropTypes.node,
@@ -20,6 +18,7 @@ class DefaultHeader extends Component {
 
     return (
       <React.Fragment>
+        <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
         <Nav className="d-md-down-none" navbar>
@@ -30,7 +29,7 @@ class DefaultHeader extends Component {
         <Nav className="ml-auto" navbar>
         </Nav>
         
-        {/*<AppAsideToggler className="d-lg-none" mobile />*/}
+        
       </React.Fragment>
     );
   }
