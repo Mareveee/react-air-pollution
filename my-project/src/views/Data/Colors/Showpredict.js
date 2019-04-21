@@ -29,7 +29,7 @@ class Showpredict extends Component {
     super(props);
     this.state = {
       timepredict24:['06:0','09:0','12:0','15:0','18:0'],
-      predict24:[0,0,0,0,0],
+      predict24:[],
       aqi:[0,0,0,0,0,0,0],
       timeaqi:[0,0,0,0,0,0,0],
       timedata:[0,0,0,0,0,0,0],
@@ -45,7 +45,6 @@ class Showpredict extends Component {
       time1hr:undefined,
       predict24hr:undefined,
       time24hr:undefined,
-      predict24hr:[],
       showAQI:true,
       showPM25:false,
       showPM10:false,
@@ -256,7 +255,7 @@ ColorGraphSO2 = (props)=>{
 }
 coloraqinow = (props)=>{
   let color
-  if(props >= 0 & props <=25){
+  if(props > 0 & props <=25){
     color = 'blue'
   }
   else if(props > 25 & props <=50){
@@ -445,16 +444,7 @@ txtRangePredict1hr = (props) =>{
   return txt
 }
 
-
-
-handleLocationChange = () => {
-  let selectedValue = document.getElementById("location").value;
-  this.setState({location:selectedValue})
-}
-
-
 getdata = (props,location) =>{
-  console.log("getdata: ",props)
   if(props === undefined){
     let urldata = 'http://54.169.105.27:1880/datanewest?deviceName='.concat(location)
     let urlaqi = 'http://54.169.105.27:1880/AQInewest?deviceName='.concat(location)
@@ -464,19 +454,19 @@ getdata = (props,location) =>{
       if(response.data.length !== 0){
         if(response.data.length>=7){
             for(i=6;i>=0;i--){
-            this.state.pm25.push(response.data[i].PM25) //change temp to pm25
+            this.state.pm25.push(response.data[i].PM25) 
             this.state.pm25.shift()
-            this.state.pm10.push(response.data[i].PM10) //change temp to pm10
+            this.state.pm10.push(response.data[i].PM10) 
             this.state.pm10.shift()
-            this.state.o3.push(response.data[i].O3) //change temp to o3
+            this.state.o3.push(response.data[i].O3) 
             this.state.o3.shift()
-            this.state.co.push(response.data[i].CO) //change temp to co
+            this.state.co.push(response.data[i].CO) 
             this.state.co.shift()
-            this.state.no2.push(response.data[i].NO2) //change temp to no2
+            this.state.no2.push(response.data[i].NO2) 
             this.state.no2.shift()
-            this.state.so2.push(response.data[i].SO2) //change temp to so2
+            this.state.so2.push(response.data[i].SO2) 
             this.state.so2.shift()
-            this.state.timedata.push(response.data[i].date.slice(11,16)) //change temp to so2
+            this.state.timedata.push(response.data[i].date.slice(11,16)) 
             this.state.timedata.shift()
         }
         }
@@ -521,19 +511,19 @@ getdata = (props,location) =>{
       if(response.data.length !== 0){
         for(i=response.data.length-1;i>=0;i--){
           if(response.data[i].time.slice(11,15) === this.state.timepredict24[0]){
-            this.state.predict24[0] = response.data[i].AQI24HR
+            this.props.predict[0] = response.data[i].AQI24HR
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[1]){
-            this.state.predict24[1] = response.data[i].AQI24HR
+            this.props.predict[1] = response.data[i].AQI24HR
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[2]){
-            this.state.predict24[2] = response.data[i].AQI24HR
+            this.props.predict[2] = response.data[i].AQI24HR
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[3]){
-            this.state.predict24[3] = response.data[i].AQI24HR
+            this.props.predict[3] = response.data[i].AQI24HR
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[4]){
-            this.state.predict24[4] = response.data[i].AQI24HR
+            this.props.predict[4] = response.data[i].AQI24HR
           }
         }
         this.state.predict1hr=response.data[0].AQI1HR
@@ -572,21 +562,30 @@ getdata = (props,location) =>{
   }
   else if(props !== undefined){
     if(props.deviceName === location){
-      if(props.timenow.slice(11,15) === this.state.timepredict24[0]){
-        this.state.predict24[0] = props.timenow.AQI24HR
+      let i
+    let urlaqi = 'http://54.169.105.27:1880/AQInewest?deviceName='.concat(location)
+      axios.get(urlaqi)
+    .then(response => {
+      if(response.data.length !== 0){
+        for(i=response.data.length-1;i>=0;i--){
+          if(response.data[i].time.slice(11,15) === this.state.timepredict24[0]){
+            this.props.predict[0] = response.data[i].AQI24HR
+          }
+          else if(response.data[i].time.slice(11,15) === this.state.timepredict24[1]){
+            this.props.predict[1] = response.data[i].AQI24HR
+          }
+          else if(response.data[i].time.slice(11,15) === this.state.timepredict24[2]){
+            this.props.predict[2] = response.data[i].AQI24HR
+          }
+          else if(response.data[i].time.slice(11,15) === this.state.timepredict24[3]){
+            this.props.predict[3] = response.data[i].AQI24HR
+          }
+          else if(response.data[i].time.slice(11,15) === this.state.timepredict24[4]){
+            this.props.predict[4] = response.data[i].AQI24HR
+          }
+        }
       }
-      else if(props.timenow.slice(11,15) === this.state.timepredict24[1]){
-        this.state.predict24[1] = props.timenow.AQI24HR
-      }
-      else if(props.timenow.slice(11,15) === this.state.timepredict24[2]){
-        this.state.predict24[2] = props.timenow.AQI24HR
-      }
-      else if(props.timenow.slice(11,15) === this.state.timepredict24[3]){
-        this.state.predict24[3] = props.timenow.AQI24HR
-      }
-      else if(props.timenow.slice(11,15) === this.state.timepredict24[4]){
-        this.state.predict24[4] = props.timenow.AQI24HR
-      }
+    })
       this.state.predict1hr=props.AQI1hrNOW
       this.state.predict24hr=props.AQI24hrNOW
       this.state.time24hr=props.timenow.slice(11,16)
@@ -600,7 +599,7 @@ getdata = (props,location) =>{
       this.state.aqi[3] = props.aqi4
       this.state.aqi[2] = props.aqi5
       this.state.aqi[1] = props.aqi6
-      this.state.aqi[0] = props.aqinow
+      this.state.aqi[0] = props.AQINOW
 
       this.state.pm25[0] = props.pm251
       this.state.pm25[1] = props.pm252
@@ -668,7 +667,118 @@ getdata = (props,location) =>{
       
     }
     else{
-      console.log(props.deviceName)
+      let urldata = 'http://54.169.105.27:1880/datanewest?deviceName='.concat(location)
+      let urlaqi = 'http://54.169.105.27:1880/AQInewest?deviceName='.concat(location)
+      let i
+      axios.get(urldata)
+      .then(response => {
+        if(response.data.length !== 0){
+          if(response.data.length>=7){
+              for(i=6;i>=0;i--){
+              this.state.pm25.push(response.data[i].PM25) 
+              this.state.pm25.shift()
+              this.state.pm10.push(response.data[i].PM10) 
+              this.state.pm10.shift()
+              this.state.o3.push(response.data[i].O3) 
+              this.state.o3.shift()
+              this.state.co.push(response.data[i].CO) 
+              this.state.co.shift()
+              this.state.no2.push(response.data[i].NO2) 
+              this.state.no2.shift()
+              this.state.so2.push(response.data[i].SO2) 
+              this.state.so2.shift()
+              this.state.timedata.push(response.data[i].date.slice(11,16)) 
+              this.state.timedata.shift()
+          }
+          }
+          else{
+              for(i=7-response.data.length;i>0;i--){
+                this.state.pm25.push(0) 
+                this.state.pm25.shift()
+                this.state.pm10.push(0) 
+                this.state.pm10.shift()
+                this.state.o3.push(0) 
+                this.state.o3.shift()
+                this.state.co.push(0) 
+                this.state.co.shift()
+                this.state.no2.push(0)
+                this.state.no2.shift()
+                this.state.so2.push(0)
+                this.state.so2.shift()
+                this.state.timedata.push(0) 
+                this.state.timedata.shift()
+              }
+              for(i=response.data.length-1;i>=0;i--){
+                this.state.pm25.push(response.data[i].PM25)
+                this.state.pm25.shift()
+                this.state.pm10.push(response.data[i].PM10)
+                this.state.pm10.shift()
+                this.state.o3.push(response.data[i].O3)
+                this.state.o3.shift()
+                this.state.co.push(response.data[i].CO)
+                this.state.co.shift()
+                this.state.no2.push(response.data[i].NO2)
+                this.state.no2.shift()
+                this.state.so2.push(response.data[i].SO2)
+                this.state.so2.shift()
+                this.state.timedata.push(response.data[i].date.slice(11,16))
+                this.state.timedata.shift()
+              }
+          }
+        }
+      })
+      axios.get(urlaqi)
+      .then(response => {
+        if(response.data.length !== 0){
+          for(i=response.data.length-1;i>=0;i--){
+            if(response.data[i].time.slice(11,15) === this.state.timepredict24[0]){
+              this.props.predict[0] = response.data[i].AQI24HR
+            }
+            else if(response.data[i].time.slice(11,15) === this.state.timepredict24[1]){
+              this.props.predict[1] = response.data[i].AQI24HR
+            }
+            else if(response.data[i].time.slice(11,15) === this.state.timepredict24[2]){
+              this.props.predict[2] = response.data[i].AQI24HR
+            }
+            else if(response.data[i].time.slice(11,15) === this.state.timepredict24[3]){
+              this.props.predict[3] = response.data[i].AQI24HR
+            }
+            else if(response.data[i].time.slice(11,15) === this.state.timepredict24[4]){
+              this.props.predict[4] = response.data[i].AQI24HR
+            }
+          }
+          this.state.predict1hr=response.data[0].AQI1HR
+          this.state.predict24hr=response.data[0].AQI24HR
+          this.state.time24hr=response.data[0].time.slice(11,16)
+          this.state.time1hr=String(Number(response.data[0].time.slice(11,13))+1).concat(response.data[0].time.slice(13,16))
+          if(String(Number(response.data[0].time.slice(11,13))+1) === '24'){
+            this.state.time1hr='00'.concat(response.data[0].time.slice(13,16))
+          }
+          if(response.data.length>=7){
+              for(i=6;i>=0;i--){
+              this.state.aqi.push(response.data[i].AQINOW)
+              this.state.aqi.shift()
+              this.state.timeaqi.push(response.data[i].time.slice(11,16))
+              this.state.timeaqi.shift()
+          }
+          }
+          else{
+              for(i=7-response.data.length;i>0;i--){
+                this.state.aqi.push(0)
+                this.state.aqi.shift()
+                this.state.timeaqi.push(0)
+                this.state.timeaqi.shift()
+              }
+              for(i=response.data.length-1;i>=0;i--){
+                this.state.aqi.push(response.data[i].AQINOW)
+                this.state.aqi.shift()
+                this.state.timeaqi.push(response.data[i].time.slice(11,16))
+                this.state.timeaqi.shift()
+              }
+          }
+          
+        }
+      })
     }
   }
 }
@@ -682,8 +792,8 @@ settext=(props)=>{
 }
   render() {
     this.getdata(this.props.data.data[0],this.props.location)
+    let show = null
     var txt = "textaqi"
-    let txtaqi = null
     let showdata=null;
     const dataaqi = {
       labels:[this.state.timeaqi[0],this.state.timeaqi[1],this.state.timeaqi[2],this.state.timeaqi[3],this.state.timeaqi[4],this.state.timeaqi[5],this.state.timeaqi[6]],  
@@ -766,242 +876,243 @@ settext=(props)=>{
         showdata=<Bar data={dataaqi}
                       height={190}/>
     }
-    else if(this.state.showPM25){
+    if(this.state.showPM25){
         showdata=<Bar data={datapm25}
                     height={190}/>
     }
-    else if(this.state.showPM10){
+    if(this.state.showPM10){
       showdata=<Bar data={datapm10}
                   height={190}/>
     }
-    else if(this.state.showCO){
+    if(this.state.showCO){
       showdata=<Bar data={dataco}
                 height={190}/>
     }
-    else if(this.state.showO3){
+    if(this.state.showO3){
       showdata=<Bar data={datao3}
                 height={190}/>
     }
-    else if(this.state.showNO2){
+    if(this.state.showNO2){
       showdata=<Bar data={datano2}
                 height={190}/>
     }
-    else if(this.state.showSO2){
+    if(this.state.showSO2){
       showdata=<Bar data={dataso2}
                 height={190}/>
     }
-    txtaqi =  this.settext(this.state.aqi[6])
+    if(this.props.show){
+        show = <div><br/>
+        <Row>
+            <Col xs="12" sm="6" lg="5">
+              <Card ><CardBody className="pb-0">
+                <Row>
+                  <Col xs="12" sm="6" lg="2"></Col>
+                  <Col xs="12" sm="6" lg="8">
+                  <Col xs="12" sm="6" lg="10">
+                  <strong className={txt.concat(this.coloraqinow(this.state.aqi[6]))}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Air Quality Index</strong>
+                  </Col>
+                  <CircularProgressbar
+                      className={this.coloraqinow(this.state.aqi[6])}
+                      background
+                      percentage={this.state.aqi[6]*100/201}
+                      text={this.settext(this.state.aqi[6])}/>
+                  <Row>
+                    <Col xs="12" sm="6" lg="4">
+                    </Col>
+                  <strong className={txt.concat(this.coloraqinow(this.state.aqi[6]))}>{this.txtaqinow(this.state.aqi[6])}</strong>
+                  </Row>
+                  </Col>
+                </Row>
+                <br/>
+                <Row>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>PM2.5</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.pm25[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorPM25(this.state.pm25[6])} value={this.state.pm25[6]*100/91} />
+                  </Col>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>PM10</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.pm10[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorPM10(this.state.pm10[6])} value={this.state.pm10[6]*100/181} />
+                  </Col>
+                </Row><br/>
+                <Row>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>O3</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.o3[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorO3([this.state.o3[6]])} value={this.state.o3[6]*100/121} />
+                  </Col>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>CO</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.co[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorCO(this.state.co[6])} value={this.state.co[6]*100/30.1}/>
+                  </Col>
+                </Row><br/>
+                <Row>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>NO2</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.no2[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorNO2(this.state.no2[6])} value={this.state.no2[6]*100/341} />
+                  </Col>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>SO2</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.so2[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorSO2(this.state.so2[6])} value={this.state.so2[6]*100/401} />
+                  </Col>
+                </Row><br/>
+                <Col xs="12" sm="6" lg="3"></Col>
+                </CardBody></Card>
+          </Col>
+        <Col xs="12" sm="6" lg="7">
+        <Card className="bg">
+        <CardBody className="pb-0">
+          {showdata}
+          <Row>
+                <Col xs="12" sm="6" lg="3">
+                  <Button active block color="primary" aria-pressed="true" onClick={this.showaqi}>AQI</Button>
+                </Col>
+                <Col xs="12" sm="6" lg="3">
+                  <Button active block color="primary" aria-pressed="true" onClick={this.showpm25}>PM2.5</Button>
+                </Col>
+                <Col xs="12" sm="6" lg="3">
+                  <Button active block color="primary" aria-pressed="true" onClick={this.showpm10}>PM10</Button>
+                </Col>
+                <Col xs="12" sm="6" lg="3">
+                  <Button active block color="primary" aria-pressed="true" onClick={this.showco}>CO</Button>
+                </Col>
+          </Row>
+          
+          <Row>
+                <Col xs="12" sm="6" lg="3">
+                  <Button active block color="primary" aria-pressed="true" onClick={this.showo3}>O3</Button>
+                </Col>
+                <Col xs="12" sm="6" lg="3">
+                  <Button active block color="primary" aria-pressed="true" onClick={this.showno2}>NO2</Button>
+                </Col>
+                <Col xs="12" sm="6" lg="3">
+                  <Button active block color="primary" aria-pressed="true" onClick={this.showso2}>SO2</Button>
+                </Col>
+          </Row>
+        </CardBody>
+        </Card>
+        </Col>
+        </Row>
+        <Row>
+        <Col xs="12" lg="12">
+              <Card>
+                <CardHeader>
+                  <strong>Prediction</strong>
+                </CardHeader>
+                <Col xs="12" lg="12">
+                <CardBody>
+                  <Table responsive bordered>
+                    <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>AQI</th>
+                      <th><center>Status</center></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                      <td>TODAY {this.state.time1hr}</td>
+                      <td>{this.txtRangePredict1hr(this.state.predict1hr)}</td>
+                      <td>
+                        <center><Badge className={"bg-aqi".concat(this.state.predict1hr)}>{this.txtPredict1hr(this.state.predict1hr)}</Badge></center>
+                      </td>
+                      </tr>
+                      <tr>
+                      <td>Tomorrow {this.state.time24hr}</td>
+                      <td>{this.txtRangePredict1hr(this.state.predict24hr)}</td>
+                      <td>
+                        <center><Badge className={"bg-aqi".concat(this.state.predict24hr)}>{this.txtPredict1hr(this.state.predict24hr)}</Badge></center>
+                      </td>
+                      </tr>
+  
+                      <tr>
+                      <td>Tomorrow {this.state.timepredict24[0]}0</td>
+                      <td>{this.txtRangePredict1hr(this.props.predict[0])}</td>
+                      <td>
+                        <center><Badge className={"bg-aqi".concat(this.props.predict[0])}>{this.txtPredict1hr(this.props.predict[0])}</Badge></center>
+                      </td>
+                      </tr>
+                      <tr>
+                      <td>Tomorrow {this.state.timepredict24[1]}0</td>
+                      <td>{this.txtRangePredict1hr(this.props.predict[1])}</td>
+                      <td>
+                        <center><Badge className={"bg-aqi".concat(this.props.predict[1])}>{this.txtPredict1hr(this.props.predict[1])}</Badge></center>
+                      </td>
+                      </tr>
+                      <tr>
+                      <td>Tomorrow {this.state.timepredict24[2]}0</td>
+                      <td>{this.txtRangePredict1hr(this.props.predict[2])}</td>
+                      <td>
+                        <center><Badge className={"bg-aqi".concat(this.props.predict[2])}>{this.txtPredict1hr(this.props.predict[2])}</Badge></center>
+                      </td>
+                      </tr>
+                      <tr>
+                      <td>Tomorrow {this.state.timepredict24[3]}0</td>
+                      <td>{this.txtRangePredict1hr(this.props.predict[3])}</td>
+                      <td>
+                        <center><Badge className={"bg-aqi".concat(this.props.predict[3])}>{this.txtPredict1hr(this.props.predict[3])}</Badge></center>
+                      </td>
+                      </tr>
+                      <tr>
+                      <td>Tomorrow {this.state.timepredict24[4]}0</td>
+                      <td>{this.txtRangePredict1hr(this.props.predict[4])}</td>
+                      <td>
+                        <center><Badge className={"bg-aqi".concat(this.props.predict[4])}>{this.txtPredict1hr(this.props.predict[4])}</Badge></center>
+                      </td>
+                      </tr>
+  
+                    </tbody>
+                  </Table>
+                </CardBody>
+                </Col>
+              </Card>
+            </Col>
+        </Row></div>
+    }
+    
     return (
       <div className="animated fadeIn">
-      <Row>
-          <Col xs="12" sm="6" lg="5">
-            <Card ><CardBody className="pb-0">
-              <Row>
-                <Col xs="12" sm="6" lg="2"></Col>
-                <Col xs="12" sm="6" lg="8">
-                <Col xs="12" sm="6" lg="10">
-                <strong className={txt.concat(this.coloraqinow(this.state.aqi[6]))}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Air Quality Index</strong>
-                </Col>
-                <CircularProgressbar
-                    className={this.coloraqinow(this.state.aqi[6])}
-                    background
-                    percentage={this.state.aqi[6]*100/201}
-                    text={txtaqi}/>
-                <Row>
-                  <Col xs="12" sm="6" lg="4">
-                  </Col>
-                <strong className={txt.concat(this.coloraqinow(this.state.aqi[6]))}>{this.txtaqinow(this.state.aqi[6])}</strong>
-                </Row>
-                </Col>
-              </Row>
-              <br/>
-              <Row>
-                <Col xs="12" sm="6" lg="6">
-                <div className="clearfix">
-                        <div className="float-left">
-                          <strong>PM2.5</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">{this.state.pm25[6]}</small>
-                        </div>
-                      </div>
-                      <Progress className="progress-xs" color={this.ColorPM25(this.state.pm25[6])} value={this.state.pm25[6]*100/91} />
-                </Col>
-                <Col xs="12" sm="6" lg="6">
-                <div className="clearfix">
-                        <div className="float-left">
-                          <strong>PM10</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">{this.state.pm10[6]}</small>
-                        </div>
-                      </div>
-                      <Progress className="progress-xs" color={this.ColorPM10(this.state.pm10[6])} value={this.state.pm10[6]*100/181} />
-                </Col>
-              </Row><br/>
-              <Row>
-                <Col xs="12" sm="6" lg="6">
-                <div className="clearfix">
-                        <div className="float-left">
-                          <strong>O3</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">{this.state.o3[6]}</small>
-                        </div>
-                      </div>
-                      <Progress className="progress-xs" color={this.ColorO3([this.state.o3[6]])} value={this.state.o3[6]*100/121} />
-                </Col>
-                <Col xs="12" sm="6" lg="6">
-                <div className="clearfix">
-                        <div className="float-left">
-                          <strong>CO</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">{this.state.co[6]}</small>
-                        </div>
-                      </div>
-                      <Progress className="progress-xs" color={this.ColorCO(this.state.co[6])} value={this.state.co[6]*100/30.1}/>
-                </Col>
-              </Row><br/>
-              <Row>
-                <Col xs="12" sm="6" lg="6">
-                <div className="clearfix">
-                        <div className="float-left">
-                          <strong>NO2</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">{this.state.no2[6]}</small>
-                        </div>
-                      </div>
-                      <Progress className="progress-xs" color={this.ColorNO2(this.state.no2[6])} value={this.state.no2[6]*100/341} />
-                </Col>
-                <Col xs="12" sm="6" lg="6">
-                <div className="clearfix">
-                        <div className="float-left">
-                          <strong>SO2</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">{this.state.so2[6]}</small>
-                        </div>
-                      </div>
-                      <Progress className="progress-xs" color={this.ColorSO2(this.state.so2[6])} value={this.state.so2[6]*100/401} />
-                </Col>
-              </Row><br/>
-              <Col xs="12" sm="6" lg="3"></Col>
-              </CardBody></Card>
-        </Col>
-      <Col xs="12" sm="6" lg="7">
-      <Card className="bg">
-      <CardBody className="pb-0">
-        {showdata}
-        <Row>
-              <Col xs="12" sm="6" lg="3">
-                <Button active block color="primary" aria-pressed="true" onClick={this.showaqi}>AQI</Button>
-              </Col>
-              <Col xs="12" sm="6" lg="3">
-                <Button active block color="primary" aria-pressed="true" onClick={this.showpm25}>PM2.5</Button>
-              </Col>
-              <Col xs="12" sm="6" lg="3">
-                <Button active block color="primary" aria-pressed="true" onClick={this.showpm10}>PM10</Button>
-              </Col>
-              <Col xs="12" sm="6" lg="3">
-                <Button active block color="primary" aria-pressed="true" onClick={this.showco}>CO</Button>
-              </Col>
-        </Row>
-        <Row><Col xs="12" sm="6" lg="3"><div><h3></h3></div></Col></Row>
-        <Row>
-              <Col xs="12" sm="6" lg="3">
-                <Button active block color="primary" aria-pressed="true" onClick={this.showo3}>O3</Button>
-              </Col>
-              <Col xs="12" sm="6" lg="3">
-                <Button active block color="primary" aria-pressed="true" onClick={this.showno2}>NO2</Button>
-              </Col>
-              <Col xs="12" sm="6" lg="3">
-                <Button active block color="primary" aria-pressed="true" onClick={this.showso2}>SO2</Button>
-              </Col>
-        </Row>
-        <Row>
-        <Col xs="12" sm="6" lg="3"><h1></h1></Col>
-        </Row>
-      </CardBody>
-      </Card>
-      </Col>
-      </Row>
-      <Row>
-      <Col xs="12" lg="12">
-            <Card>
-              <CardHeader>
-                <strong>Prediction</strong>
-              </CardHeader>
-              <Col xs="12" lg="12">
-              <CardBody>
-                <Table responsive bordered>
-                  <thead>
-                  <tr>
-                    <th>Time</th>
-                    <th>AQI</th>
-                    <th><center>Status</center></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                    <td>TODAY {this.state.time1hr}</td>
-                    <td>{this.txtRangePredict1hr(this.state.predict1hr)}</td>
-                    <td>
-                      <center><Badge className={"bg-aqi".concat(this.state.predict1hr)}>{this.txtPredict1hr(this.state.predict1hr)}</Badge></center>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>Tomorrow {this.state.time24hr}</td>
-                    <td>{this.txtRangePredict1hr(this.state.predict24hr)}</td>
-                    <td>
-                      <center><Badge className={"bg-aqi".concat(this.state.predict24hr)}>{this.txtPredict1hr(this.state.predict24hr)}</Badge></center>
-                    </td>
-                    </tr>
-
-                    <tr>
-                    <td>Tomorrow {this.state.timepredict24[0]}0</td>
-                    <td>{this.txtRangePredict1hr(this.state.predict24[0])}</td>
-                    <td>
-                      <center><Badge className={"bg-aqi".concat(this.state.predict24[0])}>{this.txtPredict1hr(this.state.predict24[0])}</Badge></center>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>Tomorrow {this.state.timepredict24[1]}0</td>
-                    <td>{this.txtRangePredict1hr(this.state.predict24[1])}</td>
-                    <td>
-                      <center><Badge className={"bg-aqi".concat(this.state.predict24[1])}>{this.txtPredict1hr(this.state.predict24[1])}</Badge></center>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>Tomorrow {this.state.timepredict24[2]}0</td>
-                    <td>{this.txtRangePredict1hr(this.state.predict24[2])}</td>
-                    <td>
-                      <center><Badge className={"bg-aqi".concat(this.state.predict24[2])}>{this.txtPredict1hr(this.state.predict24[2])}</Badge></center>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>Tomorrow {this.state.timepredict24[3]}0</td>
-                    <td>{this.txtRangePredict1hr(this.state.predict24[3])}</td>
-                    <td>
-                      <center><Badge className={"bg-aqi".concat(this.state.predict24[3])}>{this.txtPredict1hr(this.state.predict24[3])}</Badge></center>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>Tomorrow {this.state.timepredict24[4]}0</td>
-                    <td>{this.txtRangePredict1hr(this.state.predict24[4])}</td>
-                    <td>
-                      <center><Badge className={"bg-aqi".concat(this.state.predict24[4])}>{this.txtPredict1hr(this.state.predict24[4])}</Badge></center>
-                    </td>
-                    </tr>
-
-                  </tbody>
-                </Table>
-              </CardBody>
-              </Col>
-            </Card>
-          </Col>
-      </Row>
+    {show}
       </div>
     );
   }

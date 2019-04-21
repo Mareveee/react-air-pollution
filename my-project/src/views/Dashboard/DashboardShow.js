@@ -11,21 +11,23 @@ import {
   CardHeader,
 } from 'reactstrap';
 import axios from 'axios';
-import Maps from './Maps'
 
 const brandPrimary = getStyle('--primary')
 const brandInfo = getStyle('--info')
 const brandWarning = getStyle('--warning')
 const brandDanger = getStyle('--danger')
+let tem = []
 
 class DashboardShow extends Component{
   constructor(props){
     super(props)
     this.state ={
+      showdashboard:false,
       locationselect : 0,
       locationName:[],
       locationID:[],
       aqi:[0,0,0,0,0,0,0],
+      tem0:0,
       temperature:[0,0,0,0,0,0,0],
       humidity:[0,0,0,0,0,0,0],
       pressure:[0,0,0,0,0,0,0],
@@ -39,7 +41,6 @@ class DashboardShow extends Component{
     }
   }
   getdata = (props,location) =>{
-    console.log("getdata : ",props)
     if(props === undefined){
       let urldata = 'http://54.169.105.27:1880/datanewest?deviceName='.concat(location)
       let urlaqi = 'http://54.169.105.27:1880/AQInewest?deviceName='.concat(location)
@@ -47,6 +48,7 @@ class DashboardShow extends Component{
       axios.get(urldata)
       .then(response => {
         if(response.data.length !== 0){
+          tem[0] = response.data[0].temperature
           if(response.data.length>=7){
               for(i=6;i>=0;i--){
               this.state.temperature.push(response.data[i].temperature) //change temp to pm25
@@ -136,90 +138,182 @@ class DashboardShow extends Component{
       })
     }
     else if(props !== undefined){
-    if(props.deviceName === location){
+      if(props.deviceName === location){
+        this.state.temperature[0] = props.temp1
+        this.state.temperature[1] = props.temp2
+        this.state.temperature[2] = props.temp3
+        this.state.temperature[3] = props.temp4
+        this.state.temperature[4] = props.temp5
+        this.state.temperature[5] = props.temp6
+        this.state.temperature[6] = props.tempnow
 
-      this.state.temperature[0] = props.temp1
-      this.state.temperature[1] = props.temp2
-      this.state.temperature[2] = props.temp3
-      this.state.temperature[3] = props.temp4
-      this.state.temperature[4] = props.temp5
-      this.state.temperature[5] = props.temp6
-      this.state.temperature[6] = props.tempnow
+        this.state.pressure[0] = props.air1
+        this.state.pressure[1] = props.air2
+        this.state.pressure[2] = props.air3
+        this.state.pressure[3] = props.air4
+        this.state.pressure[4] = props.air5
+        this.state.pressure[5] = props.air6
+        this.state.pressure[6] = props.airnow
 
-      this.state.pressure[0] = props.air1
-      this.state.pressure[1] = props.air2
-      this.state.pressure[2] = props.air3
-      this.state.pressure[3] = props.air4
-      this.state.pressure[4] = props.air5
-      this.state.pressure[5] = props.air6
-      this.state.pressure[6] = props.airnow
+        this.state.humidity[0] = props.hu1
+        this.state.humidity[1] = props.hu2
+        this.state.humidity[2] = props.hu3
+        this.state.humidity[3] = props.hu4
+        this.state.humidity[4] = props.hu5
+        this.state.humidity[5] = props.hu6
+        this.state.humidity[6] = props.hunow
 
-      this.state.humidity[0] = props.hu1
-      this.state.humidity[1] = props.hu2
-      this.state.humidity[2] = props.hu3
-      this.state.humidity[3] = props.hu4
-      this.state.humidity[4] = props.hu5
-      this.state.humidity[5] = props.hu6
-      this.state.humidity[6] = props.hunow
+        this.state.pm25[0] = props.pm251
+        this.state.pm25[1] = props.pm252
+        this.state.pm25[2] = props.pm253
+        this.state.pm25[3] = props.pm254
+        this.state.pm25[4] = props.pm255
+        this.state.pm25[5] = props.pm256
+        this.state.pm25[6] = props.pm25now
 
-      this.state.pm25[0] = props.pm251
-      this.state.pm25[1] = props.pm252
-      this.state.pm25[2] = props.pm253
-      this.state.pm25[3] = props.pm254
-      this.state.pm25[4] = props.pm255
-      this.state.pm25[5] = props.pm256
-      this.state.pm25[6] = props.pm25now
+        this.state.pm10[0] = props.pm101
+        this.state.pm10[1] = props.pm102
+        this.state.pm10[2] = props.pm103
+        this.state.pm10[3] = props.pm104
+        this.state.pm10[4] = props.pm105
+        this.state.pm10[5] = props.pm106
+        this.state.pm10[6] = props.pm10now
 
-      this.state.pm10[0] = props.pm101
-      this.state.pm10[1] = props.pm102
-      this.state.pm10[2] = props.pm103
-      this.state.pm10[3] = props.pm104
-      this.state.pm10[4] = props.pm105
-      this.state.pm10[5] = props.pm106
-      this.state.pm10[6] = props.pm10now
+        this.state.o3[0] = props.o31
+        this.state.o3[1] = props.o32
+        this.state.o3[2] = props.o33
+        this.state.o3[3] = props.o34
+        this.state.o3[4] = props.o35
+        this.state.o3[5] = props.o36
+        this.state.o3[6] = props.o3now
 
-      this.state.o3[0] = props.o31
-      this.state.o3[1] = props.o32
-      this.state.o3[2] = props.o33
-      this.state.o3[3] = props.o34
-      this.state.o3[4] = props.o35
-      this.state.o3[5] = props.o36
-      this.state.o3[6] = props.o3now
+        this.state.co[0] = props.co1
+        this.state.co[1] = props.co2
+        this.state.co[2] = props.co3
+        this.state.co[3] = props.co4
+        this.state.co[4] = props.co5
+        this.state.co[5] = props.co6
+        this.state.co[6] = props.conow
 
-      this.state.co[0] = props.co1
-      this.state.co[1] = props.co2
-      this.state.co[2] = props.co3
-      this.state.co[3] = props.co4
-      this.state.co[4] = props.co5
-      this.state.co[5] = props.co6
-      this.state.co[6] = props.conow
+        this.state.no2[0] = props.no21
+        this.state.no2[1] = props.no22
+        this.state.no2[2] = props.no23
+        this.state.no2[3] = props.no24
+        this.state.no2[4] = props.no25
+        this.state.no2[5] = props.no26
+        this.state.no2[6] = props.no2now
 
-      this.state.no2[0] = props.no21
-      this.state.no2[1] = props.no22
-      this.state.no2[2] = props.no23
-      this.state.no2[3] = props.no24
-      this.state.no2[4] = props.no25
-      this.state.no2[5] = props.no26
-      this.state.no2[6] = props.no2now
-
-      this.state.so2[0] = props.so21
-      this.state.so2[1] = props.so22
-      this.state.so2[2] = props.so23
-      this.state.so2[3] = props.so24
-      this.state.so2[4] = props.so25
-      this.state.so2[5] = props.so26
-      this.state.so2[6] = props.so2now
-      
-      this.state.aqi[0] = props.aqi1
-      this.state.aqi[1] = props.aqi2
-      this.state.aqi[2] = props.aqi3
-      this.state.aqi[3] = props.aqi4
-      this.state.aqi[4] = props.aqi5
-      this.state.aqi[5] = props.aqi6
-      this.state.aqi[6] = props.AQINOW
+        this.state.so2[0] = props.so21
+        this.state.so2[1] = props.so22
+        this.state.so2[2] = props.so23
+        this.state.so2[3] = props.so24
+        this.state.so2[4] = props.so25
+        this.state.so2[5] = props.so26
+        this.state.so2[6] = props.so2now
+        
+        this.state.aqi[0] = props.aqi1
+        this.state.aqi[1] = props.aqi2
+        this.state.aqi[2] = props.aqi3
+        this.state.aqi[3] = props.aqi4
+        this.state.aqi[4] = props.aqi5
+        this.state.aqi[5] = props.aqi6
+        this.state.aqi[6] = props.AQINOW
     }
     else{
-      console.log(props.deviceName)
+      let urldata = 'http://54.169.105.27:1880/datanewest?deviceName='.concat(location)
+      let urlaqi = 'http://54.169.105.27:1880/AQInewest?deviceName='.concat(location)
+      let i
+      axios.get(urldata)
+      .then(response => {
+        if(response.data.length !== 0){
+          tem[0] = response.data[0].temperature
+          if(response.data.length>=7){
+              for(i=6;i>=0;i--){
+              this.state.temperature.push(response.data[i].temperature) //change temp to pm25
+              this.state.temperature.shift()
+              this.state.humidity.push(response.data[i].humidity) //change temp to pm25
+              this.state.humidity.shift()
+              this.state.pressure.push(response.data[i].pressure) //change temp to pm25
+              this.state.pressure.shift()
+              this.state.pm25.push(response.data[i].PM25) //change temp to pm25
+              this.state.pm25.shift()
+              this.state.pm10.push(response.data[i].PM10) //change temp to pm10
+              this.state.pm10.shift()
+              this.state.o3.push(response.data[i].O3) //change temp to o3
+              this.state.o3.shift()
+              this.state.co.push(response.data[i].CO) //change temp to co
+              this.state.co.shift()
+              this.state.no2.push(response.data[i].NO2) //change temp to no2
+              this.state.no2.shift()
+              this.state.so2.push(response.data[i].SO2) //change temp to so2
+              this.state.so2.shift()
+          }
+          }
+          else{
+              for(i=7-response.data.length;i>0;i--){
+                this.state.temperature.push(0) //change temp to pm25
+                this.state.temperature.shift()
+                this.state.humidity.push(0) //change temp to pm25
+                this.state.humidity.shift()
+                this.state.pressure.push(0) //change temp to pm25
+                this.state.pressure.shift()
+                this.state.pm25.push(0) //change temp to pm25
+                this.state.pm25.shift()
+                this.state.pm10.push(0) //change temp to pm10
+                this.state.pm10.shift()
+                this.state.o3.push(0) //change temp to o3
+                this.state.o3.shift()
+                this.state.co.push(0) //change temp to co
+                this.state.co.shift()
+                this.state.no2.push(0) //change temp to no2
+                this.state.no2.shift()
+                this.state.so2.push(0) //change temp to so2
+                this.state.so2.shift()
+              }
+              for(i=response.data.length-1;i>=0;i--){
+                this.state.temperature.push(response.data[i].temperature) //change temp to pm25
+                this.state.temperature.shift()
+                this.state.humidity.push(response.data[i].humidity) //change temp to pm25
+                this.state.humidity.shift()
+                this.state.pressure.push(response.data[i].pressure) //change temp to pm25
+                this.state.pressure.shift()
+                this.state.pm25.push(response.data[i].PM25) //change temp to pm25
+                this.state.pm25.shift()
+                this.state.pm10.push(response.data[i].PM10) //change temp to pm10
+                this.state.pm10.shift()
+                this.state.o3.push(response.data[i].O3) //change temp to o3
+                this.state.o3.shift()
+                this.state.co.push(response.data[i].CO) //change temp to co
+                this.state.co.shift()
+                this.state.no2.push(response.data[i].NO2) //change temp to no2
+                this.state.no2.shift()
+                this.state.so2.push(response.data[i].SO2) //change temp to so2
+                this.state.so2.shift()
+              }
+          }
+        }
+      })
+      axios.get(urlaqi)
+      .then(response => {
+        if(response.data.length !== 0){
+          if(response.data.length>=7){
+              for(i=6;i>=0;i--){
+              this.state.aqi.push(response.data[i].AQINOW)
+              this.state.aqi.shift()
+          }
+          }
+          else{
+              for(i=7-response.data.length;i>0;i--){
+                this.state.aqi.push(0)
+                this.state.aqi.shift()
+              }
+              for(i=response.data.length-1;i>=0;i--){
+                this.state.aqi.push(response.data[i].AQINOW)
+                this.state.aqi.shift()
+              }
+          }
+        }
+      })
     }
     }
   }
@@ -246,6 +340,7 @@ class DashboardShow extends Component{
     return color
   }
     render() {
+      let show=null
       this.getdata(this.props.data.data[0],this.props.location)//location change num in array
       const sparkLineChartData = [
         {
@@ -353,11 +448,9 @@ class DashboardShow extends Component{
               ]
             }]
           };
-
-          
-        return (
-          <div className="animated fadeIn">
-            <Row >
+          if(this.props.show){
+            show = <div><br/>
+               <Row >
                 <Col xs="12" sm="6" lg="4">
                 <Card className="bg-color3">
                     <CardBody className="pb-0">
@@ -469,10 +562,15 @@ class DashboardShow extends Component{
                 </Card>
                 </Col>
             </Row>
-            <Maps AQI={this.coloraqinow(this.state.aqi[6])}/>
+        {/*<Maps AQI={this.coloraqinow(this.state.aqi[6])}/>*/} 
             <Row>
-              <div></div>
+              
             </Row>
+            </div>
+          }
+        return (
+          <div className="animated fadeIn">
+           {show}
           </div>
         );
       }

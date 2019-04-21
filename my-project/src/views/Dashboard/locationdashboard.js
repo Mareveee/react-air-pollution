@@ -4,7 +4,8 @@ import {
   Row,
   FormGroup,
   Label,
-  Input
+  Input,
+  Button
 } from 'reactstrap';
 import 'react-circular-progressbar/dist/styles.css';
 import axios from 'axios'
@@ -21,8 +22,8 @@ class Locationdashborad extends Component {
   constructor(props){
     super(props);
     this.state = {
-      showPredict : true,
-      location:'kmitl',
+      showdashboard : true,
+      location:'',
       locationName:[],
       locationID:[]
     }
@@ -41,6 +42,7 @@ componentWillMount(){
 }
 
 handleLocationChange = () => {
+  this.setState({showdashboard:false})
     let selectedValue = document.getElementById("location").value;
     this.setState({location:selectedValue})
   }
@@ -52,13 +54,14 @@ handleLocationChange = () => {
       <Col xs="3">
                     <FormGroup>
                       <Label htmlFor="ccmonth">Location</Label>
-                      <Input type="select" name="location" id="location" onChange={this.handleLocationChange}>
+                      <Input type="select" name="location" id="location" onChange={this.handleLocationChange} >
                         {this.state.locationName.map(datas => <option value={datas.id}>{datas}</option>)}
                       </Input>
                     </FormGroup>
                   </Col>
      </Row>
-     <DashboardShow data={this.props.data} location={this.state.location} temp={this.state.temperature}/>
+     <Row><Col xs="2"> <Button active block color="dark" aria-pressed="true" onClick={()=>this.setState({showdashboard:true})}>Show</Button></Col></Row>
+    <DashboardShow data={this.props.data} location={this.state.location} show={this.state.showdashboard}/>
       </div>
     );
   }

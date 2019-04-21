@@ -4,7 +4,8 @@ import {
   Row,
   FormGroup,
   Label,
-  Input
+  Input,
+  Button
 } from 'reactstrap';
 import './Colors.css'
 import 'react-circular-progressbar/dist/styles.css';
@@ -24,9 +25,10 @@ class Locationpredict extends Component {
     super(props);
     this.state = {
       showPredict : true,
-      location:'kmitl',
+      location:'',
       locationName:[],
-      locationID:[]
+      locationID:[],
+      predict24:[0,0,0,0,0]
     }
   }
 
@@ -44,6 +46,12 @@ componentWillMount(){
 }
 
 handleLocationChange = () => {
+  this.setState({showPredict:false})
+  this.state.predict24[0] = 0
+  this.state.predict24[1] = 0
+  this.state.predict24[2] = 0
+  this.state.predict24[3] = 0
+  this.state.predict24[4] = 0
     let selectedValue = document.getElementById("location").value;
     this.setState({location:selectedValue})
   }
@@ -61,7 +69,8 @@ handleLocationChange = () => {
                     </FormGroup>
                   </Col>
      </Row>
-     <Showpredict data={this.props.data} location={this.state.location}/>
+     <Row><Col xs="2"> <Button active block color="dark" aria-pressed="true" onClick={()=>this.setState({showPredict:true})}>Show</Button></Col></Row>
+     <Showpredict data={this.props.data} location={this.state.location} show={this.state.showPredict} predict={this.state.predict24}/>
       </div>
     );
   }
