@@ -1,7 +1,8 @@
 import React from 'react';
 import Paginations from './Paginations';
 import axios from 'axios';
-import {  Card, CardBody,  Col,  Row, Table } from 'reactstrap';
+import {  Card, CardBody,  Col,  Row, Table,Button } from 'reactstrap';
+import Showaqigraph from './Showaqigraph'
  
 class Showaqitable extends React.Component {
     constructor() {
@@ -9,6 +10,7 @@ class Showaqitable extends React.Component {
         this.state = {
           date : [],
           time : [],
+          datetime:[],
           aqi:[],
           data:[],
           page:0,
@@ -24,7 +26,8 @@ class Showaqitable extends React.Component {
           aqiMax:0,
           aqiMin:0,
           aqiAvg:0,
-          entries:0
+          entries:0,
+          showaqigraph:false
         };
  
         // bind function in constructor instead of render (https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md)
@@ -54,6 +57,7 @@ class Showaqitable extends React.Component {
           totalaqi = totalaqi + response.data[i].AQINOW
           this.setState({date:this.state.date.concat([response.data[i].time.slice(0,10)])})
           this.setState({time:this.state.time.concat([response.data[i].time.slice(11,19)])})
+          this.setState({datetime:this.state.datetime.concat([response.data[i].time.slice(0,10).concat(" ",response.data[i].time.slice(11,19))])})
           this.setState({aqi:this.state.aqi.concat([response.data[i].AQINOW])})
           this.setState({item:this.state.item.concat(i)})
         }
@@ -72,6 +76,10 @@ class Showaqitable extends React.Component {
     
  
     render() {
+      let showgraph = null
+      if(this.state.showaqigraph){
+        showgraph = <Showaqigraph time={this.state.datetime} aqi={this.state.aqi}/>
+      }
         return (
           <div className="animated fadeIn">
           <div><Row>
@@ -133,7 +141,15 @@ class Showaqitable extends React.Component {
                 </Card>
               </Col>
             </Row>
+            <Row>
+          <Col xs="12" sm="6" lg="9"></Col>
+          <Col xs="12" sm="6" lg="2">
+          <Button active block color="dark" aria-pressed="true" onClick={()=>this.setState({showaqigraph:true})}>Graph</Button>
+          <br/>
+          </Col>
+          </Row>
             </div>
+            {showgraph}
           </div>
                     
         );

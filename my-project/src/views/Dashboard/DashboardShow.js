@@ -547,7 +547,7 @@ class DashboardShow extends Component{
                       </Col>
                       <Col xs="12" md="6" xl="4">
                         <div className="callout callout-warning">
-                          <small className="text-muted"><strong>Sulferdioxide</strong></small>
+                          <small className="text-muted"><strong>Sulfurdioxide</strong></small>
                           <br />
                           <strong className="h4">{this.state.so2[6]} ppb</strong>
                           <div className="chart-wrapper">
