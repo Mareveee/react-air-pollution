@@ -28,7 +28,8 @@ class Locationpredict extends Component {
       location:'',
       locationName:[],
       locationID:[],
-      predict24:[0,0,0,0,0]
+      predict24:[0,0,0,0,0],
+      day24:[8,8,8,8,8,8,8]
     }
   }
 
@@ -52,6 +53,13 @@ handleLocationChange = () => {
   this.state.predict24[2] = 0
   this.state.predict24[3] = 0
   this.state.predict24[4] = 0
+  this.state.day24[0] = 8
+  this.state.day24[1] = 8
+  this.state.day24[2] = 8
+  this.state.day24[3] = 8
+  this.state.day24[4] = 8
+  this.state.day24[5] = 8
+  this.state.day24[6] = 8
     let selectedValue = document.getElementById("location").value;
     this.setState({location:selectedValue})
   }
@@ -70,7 +78,7 @@ handleLocationChange = () => {
                   </Col>
      </Row>
      <Row><Col xs="2"> <Button active block color="dark" aria-pressed="true" onClick={()=>this.setState({showPredict:true})}>Show</Button></Col></Row>
-     <Showpredict data={this.props.data} location={this.state.location} show={this.state.showPredict} predict={this.state.predict24}/>
+     <Showpredict data={this.props.data} location={this.state.location} show={this.state.showPredict} predict={this.state.predict24} day24={this.state.day24}/>
       </div>
     );
   }

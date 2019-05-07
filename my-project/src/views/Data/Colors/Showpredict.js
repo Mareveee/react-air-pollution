@@ -28,6 +28,7 @@ class Showpredict extends Component {
   constructor(props){
     super(props);
     this.state = {
+      day24:[],
       timepredict24:['06:0','09:0','12:0','15:0','18:0'],
       predict24:[],
       aqi:[0,0,0,0,0,0,0],
@@ -443,6 +444,53 @@ txtRangePredict1hr = (props) =>{
   }
   return txt
 }
+setday = (props) =>{
+  if(props==0){
+    return "monday"
+  }
+  else if(props==1){
+    return "tuesday"
+  }
+  else if(props==2){
+    return "wednesday"
+  }
+  else if(props==3){
+    return "thursday"
+  }
+  else if(props==4){
+    return "friday"
+  }
+  else if(props==5){
+    return "saturday"
+  }
+  else if(props==6){
+    return "sunday"
+  }
+}
+
+settoday = (props) =>{
+  if(props==0){
+    return "sunday"
+  }
+  else if(props==1){
+    return "monday"
+  }
+  else if(props==2){
+    return "tuesday"
+  }
+  else if(props==3){
+    return "wednesday"
+  }
+  else if(props==4){
+    return "thursday"
+  }
+  else if(props==5){
+    return "friday"
+  }
+  else if(props==6){
+    return "saturday"
+  }
+}
 
 getdata = (props,location) =>{
   if(props === undefined){
@@ -512,23 +560,29 @@ getdata = (props,location) =>{
         for(i=response.data.length-1;i>=0;i--){
           if(response.data[i].time.slice(11,15) === this.state.timepredict24[0]){
             this.props.predict[0] = response.data[i].AQI24HR
+            this.props.day24[0] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[1]){
             this.props.predict[1] = response.data[i].AQI24HR
+            this.props.day24[1] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[2]){
             this.props.predict[2] = response.data[i].AQI24HR
+            this.props.day24[2] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[3]){
             this.props.predict[3] = response.data[i].AQI24HR
+            this.props.day24[3] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[4]){
             this.props.predict[4] = response.data[i].AQI24HR
+            this.props.day24[4] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
         }
         this.state.predict1hr=response.data[0].AQI1HR
         this.state.predict24hr=response.data[0].AQI24HR
         this.state.time24hr=response.data[0].time.slice(11,16)
+        this.props.day24[5] = new Date(response.data[0].time.slice(0,10)).getDay()
         this.state.time1hr=String(Number(response.data[0].time.slice(11,13))+1).concat(response.data[0].time.slice(13,16))
         if(String(Number(response.data[0].time.slice(11,13))+1) === '24'){
           this.state.time1hr='00'.concat(response.data[0].time.slice(13,16))
@@ -570,18 +624,23 @@ getdata = (props,location) =>{
         for(i=response.data.length-1;i>=0;i--){
           if(response.data[i].time.slice(11,15) === this.state.timepredict24[0]){
             this.props.predict[0] = response.data[i].AQI24HR
+            this.props.day24[0] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[1]){
             this.props.predict[1] = response.data[i].AQI24HR
+            this.props.day24[1] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[2]){
             this.props.predict[2] = response.data[i].AQI24HR
+            this.props.day24[2] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[3]){
             this.props.predict[3] = response.data[i].AQI24HR
+            this.props.day24[3] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[4]){
             this.props.predict[4] = response.data[i].AQI24HR
+            this.props.day24[4] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
         }
       }
@@ -589,6 +648,7 @@ getdata = (props,location) =>{
       this.state.predict1hr=props.AQI1hrNOW
       this.state.predict24hr=props.AQI24hrNOW
       this.state.time24hr=props.timenow.slice(11,16)
+      this.props.day24[5] = new Date(props.timenow.slice(0,10)).getDay()
       this.state.time1hr=String(Number(props.timenow.slice(11,13))+1).concat(props.timenow.slice(13,16))
       if(String(Number(props.timenow.slice(11,13))+1) === '24'){
         this.statetime1hr='00'.concat(props.timenow.slice(13,16))
@@ -733,23 +793,29 @@ getdata = (props,location) =>{
           for(i=response.data.length-1;i>=0;i--){
             if(response.data[i].time.slice(11,15) === this.state.timepredict24[0]){
               this.props.predict[0] = response.data[i].AQI24HR
+              this.props.day24[0] = new Date(response.data[i].time.slice(0,10)).getDay()
             }
             else if(response.data[i].time.slice(11,15) === this.state.timepredict24[1]){
               this.props.predict[1] = response.data[i].AQI24HR
+              this.props.day24[1] = new Date(response.data[i].time.slice(0,10)).getDay()
             }
             else if(response.data[i].time.slice(11,15) === this.state.timepredict24[2]){
               this.props.predict[2] = response.data[i].AQI24HR
+              this.props.day24[2] = new Date(response.data[i].time.slice(0,10)).getDay()
             }
             else if(response.data[i].time.slice(11,15) === this.state.timepredict24[3]){
               this.props.predict[3] = response.data[i].AQI24HR
+              this.props.day24[3] = new Date(response.data[i].time.slice(0,10)).getDay()
             }
             else if(response.data[i].time.slice(11,15) === this.state.timepredict24[4]){
               this.props.predict[4] = response.data[i].AQI24HR
+              this.props.day24[4] = new Date(response.data[i].time.slice(0,10)).getDay()
             }
           }
           this.state.predict1hr=response.data[0].AQI1HR
           this.state.predict24hr=response.data[0].AQI24HR
           this.state.time24hr=response.data[0].time.slice(11,16)
+          this.props.day24[5] = new Date(response.data[0].time.slice(0,10)).getDay()
           this.state.time1hr=String(Number(response.data[0].time.slice(11,13))+1).concat(response.data[0].time.slice(13,16))
           if(String(Number(response.data[0].time.slice(11,13))+1) === '24'){
             this.state.time1hr='00'.concat(response.data[0].time.slice(13,16))
@@ -1051,14 +1117,14 @@ settext=(props)=>{
                     </thead>
                     <tbody>
                       <tr>
-                      <td>TODAY {this.state.time1hr}</td>
+                      <td>{this.settoday(this.props.day24[5])} {this.state.time1hr}</td>
                       <td>{this.txtRangePredict1hr(this.state.predict1hr)}</td>
                       <td>
                         <center><Badge className={"bg-aqi".concat(this.state.predict1hr)}>{this.txtPredict1hr(this.state.predict1hr)}</Badge></center>
                       </td>
                       </tr>
                       <tr>
-                      <td>Tomorrow {this.state.time24hr}</td>
+                      <td>{this.setday(this.props.day24[5])} {this.state.time24hr}</td>
                       <td>{this.txtRangePredict1hr(this.state.predict24hr)}</td>
                       <td>
                         <center><Badge className={"bg-aqi".concat(this.state.predict24hr)}>{this.txtPredict1hr(this.state.predict24hr)}</Badge></center>
@@ -1066,35 +1132,35 @@ settext=(props)=>{
                       </tr>
   
                       <tr>
-                      <td>Tomorrow {this.state.timepredict24[0]}0</td>
+                      <td>{this.setday(this.props.day24[0])} {this.state.timepredict24[0]}0</td>
                       <td>{this.txtRangePredict1hr(this.props.predict[0])}</td>
                       <td>
                         <center><Badge className={"bg-aqi".concat(this.props.predict[0])}>{this.txtPredict1hr(this.props.predict[0])}</Badge></center>
                       </td>
                       </tr>
                       <tr>
-                      <td>Tomorrow {this.state.timepredict24[1]}0</td>
+                      <td>{this.setday(this.props.day24[1])} {this.state.timepredict24[1]}0</td>
                       <td>{this.txtRangePredict1hr(this.props.predict[1])}</td>
                       <td>
                         <center><Badge className={"bg-aqi".concat(this.props.predict[1])}>{this.txtPredict1hr(this.props.predict[1])}</Badge></center>
                       </td>
                       </tr>
                       <tr>
-                      <td>Tomorrow {this.state.timepredict24[2]}0</td>
+                      <td>{this.setday(this.props.day24[2])} {this.state.timepredict24[2]}0</td>
                       <td>{this.txtRangePredict1hr(this.props.predict[2])}</td>
                       <td>
                         <center><Badge className={"bg-aqi".concat(this.props.predict[2])}>{this.txtPredict1hr(this.props.predict[2])}</Badge></center>
                       </td>
                       </tr>
                       <tr>
-                      <td>Tomorrow {this.state.timepredict24[3]}0</td>
+                      <td>{this.setday(this.props.day24[3])} {this.state.timepredict24[3]}0</td>
                       <td>{this.txtRangePredict1hr(this.props.predict[3])}</td>
                       <td>
                         <center><Badge className={"bg-aqi".concat(this.props.predict[3])}>{this.txtPredict1hr(this.props.predict[3])}</Badge></center>
                       </td>
                       </tr>
                       <tr>
-                      <td>Tomorrow {this.state.timepredict24[4]}0</td>
+                      <td>{this.setday(this.props.day24[4])} {this.state.timepredict24[4]}0</td>
                       <td>{this.txtRangePredict1hr(this.props.predict[4])}</td>
                       <td>
                         <center><Badge className={"bg-aqi".concat(this.props.predict[4])}>{this.txtPredict1hr(this.props.predict[4])}</Badge></center>

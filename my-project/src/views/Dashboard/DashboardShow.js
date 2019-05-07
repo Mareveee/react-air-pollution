@@ -494,6 +494,7 @@ class DashboardShow extends Component{
                 <Row>
             <Col xs="12" md="6" xl="5"></Col>
             <Col xs="12" md="6" xl="11">
+            <div className="animated fadeIn">
             <Row>
             <Col xs="12" md="6" xl="4">
                         <div className="callout callout-info">
@@ -556,6 +557,7 @@ class DashboardShow extends Component{
                         </div>
                       </Col>
                     </Row>
+                    </div>
                   </Col>
                   </Row>
                   </CardBody>
