@@ -16,6 +16,11 @@ export default {
       class: ''             // optional class names space delimited list for title item ex: "text-center"
     },
     {
+      name: 'Data',
+      url: '/data/data',
+      icon:'icon-pie-chart'
+    },
+    {
       name: 'Predicted',
       url: '/data/AQI',
       icon:'icon-pie-chart'

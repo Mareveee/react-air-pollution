@@ -9,6 +9,7 @@ import {
   Col,
   Row,
   CardHeader,
+  Progress
 } from 'reactstrap';
 import axios from 'axios';
 
@@ -37,8 +38,123 @@ class DashboardShow extends Component{
       co:[0,0,0,0,0,0,0],
       no2:[0,0,0,0,0,0,0],
       so2:[0,0,0,0,0,0,0],
-      AQI:0
+      AQI:0,
+      timedata:[0,0,0,0,0,0,0]
     }
+  }
+  ColorPM25 = (props) =>{
+    let colorpm25
+    if(props > 0 & props <=25){
+      colorpm25 = 'info'
+    }
+    else if(props > 25 & props <=37){
+      colorpm25 = 'success'
+    }
+    else if(props > 37 & props <=50){
+      colorpm25 = 'warning'
+    }
+    else if(props > 50 & props <=90){
+      colorpm25 = 'awesome'
+    }
+    else if(props > 91){
+      colorpm25 = 'danger'
+    }
+    return colorpm25
+  }
+  ColorPM10 = (props) =>{
+    let colorpm10
+    if(props > 0 & props <=50){
+      colorpm10 = 'info'
+    }
+    else if(props > 50 & props <=80){
+      colorpm10 = 'success'
+    }
+    else if(props > 80 & props <=120){
+      colorpm10 = 'warning'
+    }
+    else if(props > 120 & props <= 180){
+      colorpm10 = 'awesome'
+    }
+    else if(props > 180){
+      colorpm10 = 'danger'
+    }
+    return colorpm10
+  }
+  ColorO3 = (props) =>{
+    let coloro3
+    if(props > 0 & props <=35){
+      coloro3 = 'info'
+    }
+    else if(props > 35 & props <=50){
+      coloro3 = 'success'
+    }
+    else if(props > 50 & props <70){
+      coloro3 = 'warning'
+    }
+    else if(props > 70 & props <= 120){
+      coloro3 = 'awesome'
+    }
+    else if(props > 120){
+      coloro3 = 'danger'
+    }
+    return coloro3
+  }
+  ColorCO = (props) =>{
+    let colorco
+    if(props > 0 & props <=4.4){
+      colorco = 'info'
+    }
+    else if(props > 4.4 & props <=6.4){
+      colorco = 'success'
+    }
+    else if(props > 6.4 & props <9){
+      colorco = 'warning'
+    }
+    else if(props > 9 & props <= 30){
+      colorco = 'awesome'
+    }
+    else if(props > 30){
+      colorco = 'danger'
+    }
+    return colorco
+  }
+  ColorNO2 = (props) =>{
+    let colorno2
+    if(props > 0 & props <= 60){
+      colorno2 = 'info'
+    }
+    else if(props > 60 & props <= 106){
+      colorno2 = 'success'
+    }
+    else if(props > 106 & props < 170){
+      colorno2 = 'warning'
+    }
+    else if(props > 170 & props <= 340){
+      colorno2 = 'awesome'
+    }
+    else if(props > 340){
+      colorno2 = 'danger'
+    }
+    return colorno2
+  }
+  ColorSO2 = (props) =>{
+    let colorso2
+    if(props > 0 & props <= 100){
+      colorso2 = 'info'
+    }
+    else if(props > 100 & props <= 200){
+      colorso2 = 'success'
+    }
+    else if(props > 200 & props < 300){
+      colorso2 = 'warning'
+    }
+    else if(props > 300 & props <= 400){
+      colorso2 = 'awesome'
+    }
+    else if(props > 400){
+      colorso2 = 'danger'
+    }
+    return colorso2
   }
   getdata = (props,location) =>{
     if(props === undefined){
@@ -69,6 +185,8 @@ class DashboardShow extends Component{
               this.state.no2.shift()
               this.state.so2.push(response.data[i].SO2) //change temp to so2
               this.state.so2.shift()
+              this.state.timedata.push(response.data[i].date.slice(11,16)) 
+              this.state.timedata.shift()
           }
           }
           else{
@@ -91,6 +209,8 @@ class DashboardShow extends Component{
                 this.state.no2.shift()
                 this.state.so2.push(0) //change temp to so2
                 this.state.so2.shift()
+                this.state.timedata.push(0) 
+                this.state.timedata.shift()
               }
               for(i=response.data.length-1;i>=0;i--){
                 this.state.temperature.push(response.data[i].temperature) //change temp to pm25
@@ -111,6 +231,8 @@ class DashboardShow extends Component{
                 this.state.no2.shift()
                 this.state.so2.push(response.data[i].SO2) //change temp to so2
                 this.state.so2.shift()
+                this.state.timedata.push(response.data[i].date.slice(11,16))
+                this.state.timedata.shift()
               }
           }
         }
@@ -218,6 +340,14 @@ class DashboardShow extends Component{
         this.state.aqi[4] = props.aqi5
         this.state.aqi[5] = props.aqi6
         this.state.aqi[6] = props.AQINOW
+
+        this.state.timedata[0] = props.timedata1.slice(11,16)
+        this.state.timedata[1] = props.timedata2.slice(11,16)
+        this.state.timedata[2] = props.timedata3.slice(11,16)
+        this.state.timedata[3] = props.timedata4.slice(11,16)
+        this.state.timedata[4] = props.timedata5.slice(11,16)
+        this.state.timedata[5] = props.timedata6.slice(11,16)
+        this.state.timedata[6] = props.timedata7.slice(11,16)
     }
     else{
       let urldata = 'http://54.169.105.27:1880/datanewest?deviceName='.concat(location)
@@ -247,6 +377,8 @@ class DashboardShow extends Component{
               this.state.no2.shift()
               this.state.so2.push(response.data[i].SO2) //change temp to so2
               this.state.so2.shift()
+              this.state.timedata.push(response.data[i].date.slice(11,16)) 
+              this.state.timedata.shift()
           }
           }
           else{
@@ -269,6 +401,8 @@ class DashboardShow extends Component{
                 this.state.no2.shift()
                 this.state.so2.push(0) //change temp to so2
                 this.state.so2.shift()
+                this.state.timedata.push(0) 
+                this.state.timedata.shift()
               }
               for(i=response.data.length-1;i>=0;i--){
                 this.state.temperature.push(response.data[i].temperature) //change temp to pm25
@@ -289,6 +423,8 @@ class DashboardShow extends Component{
                 this.state.no2.shift()
                 this.state.so2.push(response.data[i].SO2) //change temp to so2
                 this.state.so2.shift()
+                this.state.timedata.push(response.data[i].date.slice(11,16))
+                this.state.timedata.shift()
               }
           }
         }
@@ -371,7 +507,7 @@ class DashboardShow extends Component{
       
       const sparklineChartOpts = {
         tooltips: {
-          enabled: false,
+          enabled: true,
           custom: CustomTooltips
         },
         responsive: true,
@@ -379,11 +515,12 @@ class DashboardShow extends Component{
         scales: {
           xAxes: [
             {
-              display: false,
+              display: true,
             }],
           yAxes: [
             {
-              display: false,
+              lineHeight:1,
+              display: true,
             }],
         },
         elements: {
@@ -398,28 +535,54 @@ class DashboardShow extends Component{
           },
         },
         legend: {
-          display: false,
+          display: true,
         },
       };
-      const makeSparkLineData = (dataSetNo, variant) => {
-        const dataset = sparkLineChartData[dataSetNo]
-        const data = {
-          labels: ['1', '2', '3', '4', '5','6','7'],
-          datasets: [
-            {
-              backgroundColor: 'transparent',
-              borderColor: variant ? variant : '#c2cfd6',
-              data: dataset.data,
-              label: dataset.label,
-            },
-          ],
 
-        };
         
-        return () => data;
-      };
+      
+      const graphPollution ={
+        labels:this.state.timedata,
+        datasets: [{
+          label:['PM2.5'],
+          backgroundColor: 'transparent',
+          borderColor: "#FF8C00" ? "#FF8C00" : '#c2cfd6',
+          data: [this.state.pm25[0],this.state.pm25[1],this.state.pm25[2],this.state.pm25[3],this.state.pm25[4],this.state.pm25[5],this.state.pm25[6]],
+        },
+        {
+          label:['PM10'],
+          backgroundColor: 'transparent',
+          borderColor: "#330066" ? "#330066" : '#c2cfd6',
+          data: [this.state.pm10[0],this.state.pm10[1],this.state.pm10[2],this.state.pm10[3],this.state.pm10[4],this.state.pm10[5],this.state.pm10[6]],
+        },
+        {
+          label:['O3'],
+          backgroundColor: 'transparent',
+          borderColor: "#FF3366	" ? "#FF3366	" : '#c2cfd6',
+          data: [this.state.o3[0],this.state.o3[1],this.state.o3[2],this.state.o3[3],this.state.o3[4],this.state.o3[5],this.state.o3[6]],
+        },
+        {
+          label:['CO'],
+          backgroundColor: 'transparent',
+          borderColor: "#339900	" ? "#339900	" : '#c2cfd6',
+          data: [this.state.co[0],this.state.co[1],this.state.co[2],this.state.co[3],this.state.co[4],this.state.co[5],this.state.co[6]],
+        },
+        {
+          label:['NO2'],
+          backgroundColor: 'transparent',
+          borderColor: "#FFD700" ? "#FFD700" : '#c2cfd6',
+          data: [this.state.no2[0],this.state.no2[1],this.state.no2[2],this.state.no2[3],this.state.no2[4],this.state.no2[5],this.state.no2[6]],
+        },
+        {
+          label:['SO2'],
+          backgroundColor: 'transparent',
+          borderColor: "#0066CC" ? "#0066CC" : '#c2cfd6',
+          data: [this.state.so2[0],this.state.so2[1],this.state.so2[2],this.state.so2[3],this.state.so2[4],this.state.so2[5],this.state.so2[6]],
+        },
+      ]
+      }
         const linetemp = {
-            labels:['1','2','3','4','5','6','7'],  
+            labels:[this.state.timedata[0],this.state.timedata[1],this.state.timedata[2],this.state.timedata[3],this.state.timedata[4],this.state.timedata[5],this.state.timedata[6]],  
             datasets: [{
               label:['temperature'],
               data: [this.state.temperature[0],this.state.temperature[1],this.state.temperature[2],this.state.temperature[3],this.state.temperature[4],this.state.temperature[5],this.state.temperature[6]],
@@ -429,7 +592,7 @@ class DashboardShow extends Component{
             }]
           };
           const linehu = {
-            labels:['1','2','3','4','5','6','7'],  
+            labels:[this.state.timedata[0],this.state.timedata[1],this.state.timedata[2],this.state.timedata[3],this.state.timedata[4],this.state.timedata[5],this.state.timedata[6]],  
             datasets: [{
               label:['humidity'],
               data: [this.state.humidity[0],this.state.humidity[1],this.state.humidity[2],this.state.humidity[3],this.state.humidity[4],this.state.humidity[5],this.state.humidity[6]],
@@ -439,7 +602,7 @@ class DashboardShow extends Component{
             }]
           };
           const lineair = {
-            labels:['1','2','3','4','5','6','7'],  
+            labels:[this.state.timedata[0],this.state.timedata[1],this.state.timedata[2],this.state.timedata[3],this.state.timedata[4],this.state.timedata[5],this.state.timedata[6]],  
             datasets: [{
               label:['air pressure'],
               data: [this.state.pressure[0],this.state.pressure[1],this.state.pressure[2],this.state.pressure[3],this.state.pressure[4],this.state.pressure[5],this.state.pressure[6]],
@@ -450,6 +613,91 @@ class DashboardShow extends Component{
           };
           if(this.props.show){
             show = <div><br/>
+            <Card>
+              <CardHeader><strong>Pollution</strong></CardHeader>
+              <CardBody>
+              <Row>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>Dust PM2.5</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.pm25[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorPM25(this.state.pm25[6])} value={this.state.pm25[6]*100/91} />
+                  </Col>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>Dust PM10</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.pm10[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorPM10(this.state.pm10[6])} value={this.state.pm10[6]*100/181} />
+                  </Col>
+                </Row><br/>
+                <Row>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>OZone</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.o3[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorO3([this.state.o3[6]])} value={this.state.o3[6]*100/121} />
+                  </Col>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>Carbonmonoxide</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.co[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorCO(this.state.co[6])} value={this.state.co[6]*100/30.1}/>
+                  </Col>
+                </Row><br/>
+                <Row>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>Nitrogendioxide</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.no2[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorNO2(this.state.no2[6])} value={this.state.no2[6]*100/341} />
+                  </Col>
+                  <Col xs="12" sm="6" lg="6">
+                  <div className="clearfix">
+                          <div className="float-left">
+                            <strong>Sulfurdioxide</strong>
+                          </div>
+                          <div className="float-right">
+                            <small className="text-muted">{this.state.so2[6]}</small>
+                          </div>
+                        </div>
+                        <Progress className="progress-xs" color={this.ColorSO2(this.state.so2[6])} value={this.state.so2[6]*100/401} />
+                  </Col>
+                  <CardBody>
+                <Row>
+            <Col xs="12" md="6" xl="5"></Col>
+            <Col xs="12" md="6" xl="12">
+                    <Line data={graphPollution} options={sparklineChartOpts} width={700} height={250} />
+                  </Col>
+                  </Row>
+                  </CardBody>
+            </Row>
+            </CardBody>
+            </Card>
                <Row >
                 <Col xs="12" sm="6" lg="4">
                 <Card className="bg-color3">
@@ -484,90 +732,8 @@ class DashboardShow extends Component{
                 </Card>
                 </Col>
             </Row>
-            <Row>
-              <Col xs="12" md="6" xl="12">
-            <Card>
-            <CardHeader>
-               <strong> Pollution </strong>
-              </CardHeader>
-            <CardBody>
-                <Row>
-            <Col xs="12" md="6" xl="5"></Col>
-            <Col xs="12" md="6" xl="11">
-            <div className="animated fadeIn">
-            <Row>
-            <Col xs="12" md="6" xl="4">
-                        <div className="callout callout-info">
-                          <small className="text-muted"><strong>Dust PM2.5</strong></small>
-                          <br />
-                          <strong className="h4">{this.state.pm25[6]} ppb</strong>
-                          <div className="chart-wrapper">
-                            <Line data={makeSparkLineData(0, brandPrimary)} options={sparklineChartOpts} width={100} height={30} />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col xs="12" md="6" xl="4">
-                        <div className="callout callout-danger">
-                          <small className="text-muted"><strong>Carbonmonoxide</strong></small>
-                          <br />
-                          <strong className="h4">{this.state.co[6]} ppm</strong>
-                          <div className="chart-wrapper">
-                            <Line data={makeSparkLineData(1, brandDanger)} options={sparklineChartOpts} width={100} height={30} />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col xs="12" md="6" xl="4">
-                        <div className="callout callout-warning">
-                          <small className="text-muted"><strong>Nitrogendioxide</strong></small>
-                          <br />
-                          <strong className="h4">{this.state.no2[6]} ppb</strong>
-                          <div className="chart-wrapper">
-                            <Line data={makeSparkLineData(2, brandWarning)} options={sparklineChartOpts} width={100} height={30} />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col xs="12" md="6" xl="4">
-                        <div className="callout callout-info">
-                          <small className="text-muted"><strong>Dust PM10</strong></small>
-                          <br />
-                          <strong className="h4">{this.state.pm10[6]} ppb</strong>
-                          <div className="chart-wrapper">
-                            <Line data={makeSparkLineData(3, brandInfo)} options={sparklineChartOpts} width={100} height={30} />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col xs="12" md="6" xl="4">
-                        <div className="callout callout-danger">
-                          <small className="text-muted"><strong>OZone</strong></small>
-                          <br />
-                          <strong className="h4">{this.state.o3[6]} ppb</strong>
-                          <div className="chart-wrapper">
-                            <Line data={makeSparkLineData(4, brandDanger)} options={sparklineChartOpts} width={100} height={30} />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col xs="12" md="6" xl="4">
-                        <div className="callout callout-warning">
-                          <small className="text-muted"><strong>Sulfurdioxide</strong></small>
-                          <br />
-                          <strong className="h4">{this.state.so2[6]} ppb</strong>
-                          <div className="chart-wrapper">
-                            <Line data={makeSparkLineData(5, brandWarning)} options={sparklineChartOpts} width={100} height={30} />
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                    </div>
-                  </Col>
-                  </Row>
-                  </CardBody>
-                </Card>
-                </Col>
-            </Row>
-        {/*<Maps AQI={this.coloraqinow(this.state.aqi[6])}/>*/} 
-            <Row>
-              
-            </Row>
+            
+            <br/>
             </div>
           }
         return (

@@ -13,6 +13,11 @@ const Dashboard = Loadable({
   loading: Loading,
 });
 
+const Datas = Loadable({
+  loader: () => import('./views/Data/Datas'),
+  loading: Loading,
+});
+
 const AQI = Loadable({
   loader: () => import('./views/Data/Colors'),
   loading: Loading,
@@ -30,7 +35,8 @@ const Historical = Loadable({
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home', component: DefaultLayout },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/dashboard', name: 'Dashboard', component: Datas },
+  { path: '/data/data', name: 'Data', component: Dashboard },
   { path: '/data/AQI', name: 'AQI', component: AQI },
   { path: '/data/historical', name: 'Historical Data', component: Historical },
 ];

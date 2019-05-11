@@ -119,7 +119,7 @@ class Graphdata extends React.Component{
       }
       const datagraph = {
             labels:this.props.time,  
-              datasets: this.state.data
+            datasets: this.state.data
             };
       const sparklineChartOpts = {
               tooltips: {

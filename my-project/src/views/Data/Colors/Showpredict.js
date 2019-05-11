@@ -558,7 +558,7 @@ getdata = (props,location) =>{
     .then(response => {
       if(response.data.length !== 0){
         for(i=response.data.length-1;i>=0;i--){
-          if(response.data[i].time.slice(11,15) === this.state.timepredict24[0]){
+         /* if(response.data[i].time.slice(11,15) === this.state.timepredict24[0]){
             this.props.predict[0] = response.data[i].AQI24HR
             this.props.day24[0] = new Date(response.data[i].time.slice(0,10)).getDay()
           }
@@ -577,22 +577,22 @@ getdata = (props,location) =>{
           else if(response.data[i].time.slice(11,15) === this.state.timepredict24[4]){
             this.props.predict[4] = response.data[i].AQI24HR
             this.props.day24[4] = new Date(response.data[i].time.slice(0,10)).getDay()
-          }
+          }*/
         }
         this.state.predict1hr=response.data[0].AQI1HR
         this.state.predict24hr=response.data[0].AQI24HR
-        this.state.time24hr=response.data[0].time.slice(11,16)
-        this.props.day24[5] = new Date(response.data[0].time.slice(0,10)).getDay()
-        this.state.time1hr=String(Number(response.data[0].time.slice(11,13))+1).concat(response.data[0].time.slice(13,16))
-        if(String(Number(response.data[0].time.slice(11,13))+1) === '24'){
-          this.state.time1hr='00'.concat(response.data[0].time.slice(13,16))
-        }
+       // this.state.time24hr=response.data[0].time.slice(11,16)
+       // this.props.day24[5] = new Date(response.data[0].time.slice(0,10)).getDay()
+        //this.state.time1hr=String(Number(response.data[0].time.slice(11,13))+1).concat(response.data[0].time.slice(13,16))
+        //if(String(Number(response.data[0].time.slice(11,13))+1) === '24'){
+          //this.state.time1hr='00'.concat(response.data[0].time.slice(13,16))
+       // }
         if(response.data.length>=7){
             for(i=6;i>=0;i--){
             this.state.aqi.push(response.data[i].AQINOW)
             this.state.aqi.shift()
-            this.state.timeaqi.push(response.data[i].time.slice(11,16))
-            this.state.timeaqi.shift()
+           // this.state.timeaqi.push(response.data[i].time.slice(11,16))
+           // this.state.timeaqi.shift()
         }
         }
         else{
@@ -1038,6 +1038,9 @@ settext=(props)=>{
                         <Progress className="progress-xs" color={this.ColorCO(this.state.co[6])} value={this.state.co[6]*100/30.1}/>
                   </Col>
                 </Row><br/>
+                <Row>
+                <div></div>
+                </Row>
                 <Row>
                   <Col xs="12" sm="6" lg="6">
                   <div className="clearfix">

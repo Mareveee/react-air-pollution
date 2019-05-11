@@ -5,6 +5,7 @@ import { Container } from 'reactstrap';
 import {
   AppAside,
   AppBreadcrumb,
+  AppFooter,
   AppHeader,
   AppSidebar,
   AppSidebarFooter,
@@ -18,6 +19,7 @@ import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
 import DefaultHeader from './DefaultHeader';
+import DefaultFooter from './DefaultFooter';
 
 class DefaultLayout extends Component {
   render() {
@@ -52,7 +54,9 @@ class DefaultLayout extends Component {
           <AppAside fixed>
           </AppAside>
         </div>
-        
+        <AppFooter>
+          <DefaultFooter />
+        </AppFooter>
       </div>
     );
   }
