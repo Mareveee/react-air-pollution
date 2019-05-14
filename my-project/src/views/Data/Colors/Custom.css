@@ -18,7 +18,7 @@
   }
   
   .CircularProgressbar .CircularProgressbar-trail {
-    stroke: transparent;
+    stroke: #CCCCCC;
   }
 
 .CircularProgressbar.red .CircularProgressbar-background {
@@ -34,7 +34,7 @@
   }
   
   .CircularProgressbar.red .CircularProgressbar-trail {
-    stroke: transparent;
+    stroke: #CCCCCC;
   }
 
   .CircularProgressbar.blue .CircularProgressbar-background {
@@ -50,7 +50,7 @@
   }
   
   .CircularProgressbar.blue .CircularProgressbar-trail {
-    stroke: transparent;
+    stroke: #CCCCCC;
   }
 
   .CircularProgressbar.green .CircularProgressbar-background {
@@ -66,7 +66,7 @@
   }
   
   .CircularProgressbar.green .CircularProgressbar-trail {
-    stroke: transparent;
+    stroke: #CCCCCC;
   }
 
   .CircularProgressbar.yellow .CircularProgressbar-background {
@@ -98,7 +98,7 @@
   }
   
   .CircularProgressbar.orange .CircularProgressbar-trail {
-    stroke: transparent;
+    stroke: #CCCCCC;
   }
 
   .CircularProgressbar.white .CircularProgressbar-text {
@@ -110,7 +110,7 @@
   }
   
   .CircularProgressbar.white .CircularProgressbar-trail {
-    stroke: transparent;
+    stroke: #CCCCCC;
   }
   .textaqired{
     font-size: 18px;

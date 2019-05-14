@@ -12,6 +12,9 @@ import {
   Progress
 } from 'reactstrap';
 import axios from 'axios';
+import CircularProgressbar from 'react-circular-progressbar';
+import '../Data/Colors/Colors.css'
+import '../Data/Colors/Custom.css'
 
 const brandPrimary = getStyle('--primary')
 const brandInfo = getStyle('--info')
@@ -456,26 +459,138 @@ class DashboardShow extends Component{
   coloraqinow = (props)=>{
     let color
     if(props > 0 & props <=25){
-      color = '#00BFFF'
+      color = 'blue'
     }
     else if(props > 25 & props <=50){
-      color = '#66CC66'
+      color = 'green'
     }
     else if(props > 50 & props <=100){
-      color = '#FFCC33'
+      color = 'yellow'
     }
     else if(props > 100 & props <=200){
-      color = '#FF9933'
+      color = 'orange'
     }
     else if(props > 200){
-      color = '#FF0033'
-    }
-    else{
-      color = '#00BFFF'
+      color = 'red'
     }
     return color
   }
+  ColorGraphPM25 = (props) => {
+    let colorpm25
+    if(props > 0 & props <=25){
+      colorpm25 = 'blue'
+    }
+    else if(props > 25 & props <=37){
+      colorpm25 = 'green'
+    }
+    else if(props > 37 & props <=50){
+      colorpm25 = 'yellow'
+    }
+    else if(props > 50 & props <=90){
+      colorpm25 = 'orange'
+    }
+    else if(props > 91){
+      colorpm25 = 'red'
+    }
+    return colorpm25
+  }
+  ColorGraphPM10 = (props)=>{
+    let colorpm10
+    if(props > 0 & props <=50){
+      colorpm10 = 'blue'
+    }
+    else if(props > 50 & props <=80){
+      colorpm10 = 'green'
+    }
+    else if(props > 80 & props <=120){
+      colorpm10 = 'yellow'
+    }
+    else if(props > 120 & props <= 180){
+      colorpm10 = 'orange'
+    }
+    else if(props > 180){
+      colorpm10 = 'red'
+    }
+    return colorpm10
+  }
+  ColorGraphO3 = (props) =>{
+    let coloro3
+    if(props > 0 & props <=35){
+      coloro3 = 'blue'
+    }
+    else if(props > 35 & props <=50){
+      coloro3 = 'green'
+    }
+    else if(props > 50 & props <70){
+      coloro3 = 'yellow'
+    }
+    else if(props > 70 & props <= 120){
+      coloro3 = 'orange'
+    }
+    else if(props > 120){
+      coloro3 = 'red'
+    }
+    return coloro3
+  }
+  ColorGraphCO = (props) =>{
+    let colorco
+    if(props > 0 & props <=4.4){
+      colorco = 'blue'
+    }
+    else if(props > 4.4 & props <=6.4){
+      colorco = 'green'
+    }
+    else if(props > 6.4 & props <9){
+      colorco = 'yellow'
+    }
+    else if(props > 9 & props <= 30){
+      colorco = 'orange'
+    }
+    else if(props > 30){
+      colorco = 'red'
+    }
+    return colorco
+  }
+  ColorGraphNO2 = (props) =>{
+    let colorno2
+    if(props > 0 & props <= 60){
+      colorno2 = 'blue'
+    }
+    else if(props > 60 & props <= 106){
+      colorno2 = 'green'
+    }
+    else if(props > 106 & props < 170){
+      colorno2 = 'yellow'
+    }
+    else if(props > 170 & props <= 340){
+      colorno2 = 'orange'
+    }
+    else if(props > 340){
+      colorno2 = 'red'
+    }
+    return colorno2
+  }
+  ColorGraphSO2 = (props)=>{
+    let colorso2
+    if(props > 0 & props <= 100){
+      colorso2 = 'blue'
+    }
+    else if(props > 100 & props <= 200){
+      colorso2 = 'green'
+    }
+    else if(props > 200 & props < 300){
+      colorso2 = 'yellow'
+    }
+    else if(props > 300 & props <= 400){
+      colorso2 = 'orange'
+    }
+    else if(props > 400){
+      colorso2 = 'red'
+    }
+    return colorso2
+  }
     render() {
+      var txt = "textaqi"
       let show=null
       this.getdata(this.props.data.data[0],this.props.location)//location change num in array
       const sparkLineChartData = [
@@ -615,9 +730,59 @@ class DashboardShow extends Component{
             show = <div><br/>
             <Card>
               <CardHeader><strong>Pollution</strong></CardHeader>
-              <CardBody>
+              <CardBody className="pb-0">
               <Row>
-                  <Col xs="12" sm="6" lg="6">
+              <Col xs="12" sm="6" lg="2">
+              <p align="center"><strong>PM2.5</strong></p>
+              <CircularProgressbar
+                      className={this.ColorGraphPM25(this.state.pm25[6])}
+                      background
+                      percentage={this.state.pm25[6]*100/91}
+                      text={this.state.pm25[6]}/>
+              </Col>
+              <Col xs="12" sm="6" lg="2">
+              <p align="center"><strong>PM10</strong></p>
+              <CircularProgressbar
+                      className={this.ColorGraphPM10(this.state.pm10[6])}
+                      background
+                      percentage={this.state.pm10[6]*100/181}
+                      text={this.state.pm10[6]}/>
+              </Col>
+              <Col xs="12" sm="6" lg="2">
+              <p align="center"><strong>O3</strong></p>
+              <CircularProgressbar
+                      className={this.ColorGraphNO2(this.state.o3[6])}
+                      background
+                      percentage={this.state.o3[6]*100/121}
+                      text={this.state.o3[6]}/>
+              </Col>
+              <Col xs="12" sm="6" lg="2">
+              <p align="center"><strong>CO</strong></p>
+              <CircularProgressbar
+                      className={this.ColorGraphCO(this.state.co[6])}
+                      background
+                      percentage={this.state.co[6]*100/30.1}
+                      text={this.state.co[6]}/>
+              </Col>
+              <Col xs="12" sm="6" lg="2">
+              <p align="center"><strong>NO2</strong></p>
+              <CircularProgressbar
+                      className={this.ColorGraphNO2(this.state.no2[6])}
+                      background
+                      percentage={this.state.no2[6]*100/341}
+                      text={this.state.no2[6]}/>
+              </Col>
+              <Col xs="12" sm="6" lg="2">
+              <p align="center"><strong>SO2</strong></p>
+              <CircularProgressbar
+                      className={this.ColorGraphSO2(this.state.so2[6])}
+                      background
+                      percentage={this.state.so2[6]*100/401}
+                      text={this.state.so2[6]}/>
+              </Col>
+              </Row>
+              <Row>
+                  {/*<Col xs="12" sm="6" lg="6">
                   <div className="clearfix">
                           <div className="float-left">
                             <strong>Dust PM2.5</strong>
@@ -627,8 +792,8 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                         <Progress className="progress-xs" color={this.ColorPM25(this.state.pm25[6])} value={this.state.pm25[6]*100/91} />
-                  </Col>
-                  <Col xs="12" sm="6" lg="6">
+          </Col>*/}
+                  {/*<Col xs="12" sm="6" lg="6">
                   <div className="clearfix">
                           <div className="float-left">
                             <strong>Dust PM10</strong>
@@ -638,10 +803,10 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                         <Progress className="progress-xs" color={this.ColorPM10(this.state.pm10[6])} value={this.state.pm10[6]*100/181} />
-                  </Col>
-                </Row><br/>
-                <Row>
-                  <Col xs="12" sm="6" lg="6">
+          </Col>*/}
+                {/*</Row><br/>
+                <Row>*/}
+                  {/*<Col xs="12" sm="6" lg="6">
                   <div className="clearfix">
                           <div className="float-left">
                             <strong>OZone</strong>
@@ -651,8 +816,8 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                         <Progress className="progress-xs" color={this.ColorO3([this.state.o3[6]])} value={this.state.o3[6]*100/121} />
-                  </Col>
-                  <Col xs="12" sm="6" lg="6">
+          </Col>*/}
+                  {/*<Col xs="12" sm="6" lg="6">
                   <div className="clearfix">
                           <div className="float-left">
                             <strong>Carbonmonoxide</strong>
@@ -662,10 +827,10 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                         <Progress className="progress-xs" color={this.ColorCO(this.state.co[6])} value={this.state.co[6]*100/30.1}/>
-                  </Col>
-                </Row><br/>
-                <Row>
-                  <Col xs="12" sm="6" lg="6">
+          </Col>*/}
+                {/*</Row><br/>
+                <Row>*/}
+                  {/*<Col xs="12" sm="6" lg="6">
                   <div className="clearfix">
                           <div className="float-left">
                             <strong>Nitrogendioxide</strong>
@@ -675,8 +840,8 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                         <Progress className="progress-xs" color={this.ColorNO2(this.state.no2[6])} value={this.state.no2[6]*100/341} />
-                  </Col>
-                  <Col xs="12" sm="6" lg="6">
+          </Col>*/}
+                  {/*<Col xs="12" sm="6" lg="6">
                   <div className="clearfix">
                           <div className="float-left">
                             <strong>Sulfurdioxide</strong>
@@ -686,15 +851,14 @@ class DashboardShow extends Component{
                           </div>
                         </div>
                         <Progress className="progress-xs" color={this.ColorSO2(this.state.so2[6])} value={this.state.so2[6]*100/401} />
-                  </Col>
-                  <CardBody>
-                <Row>
-            <Col xs="12" md="6" xl="5"></Col>
-            <Col xs="12" md="6" xl="12">
-                    <Line data={graphPollution} options={sparklineChartOpts} width={700} height={250} />
-                  </Col>
-                  </Row>
-                  </CardBody>
+          </Col>*/}
+          <Col xs="12" sm="6" lg="12">
+                <Card>
+                    <CardBody className="pb-0">
+                    <Line data={graphPollution} options={sparklineChartOpts} width={680} height={250} />
+                    </CardBody> 
+                </Card>
+                </Col>
             </Row>
             </CardBody>
             </Card>
