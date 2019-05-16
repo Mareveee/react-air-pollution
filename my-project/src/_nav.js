@@ -3,7 +3,7 @@ export default {
     {
       name: 'Dashboard',
       url: '/dashboard',
-      icon: 'icon-speedometer',
+      icon: 'dashboard',
 
     },
     {
@@ -18,7 +18,7 @@ export default {
     {
       name: 'Data',
       url: '/data/data',
-      icon:'icon-pie-chart'
+      icon:'icon-speedometer'
     },
     {
       name: 'Predicted',

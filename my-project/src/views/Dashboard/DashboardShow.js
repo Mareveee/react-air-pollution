@@ -8,19 +8,17 @@ import {
   CardBody,
   Col,
   Row,
-  CardHeader,
-  Progress
+  CardHeader
 } from 'reactstrap';
 import axios from 'axios';
 import CircularProgressbar from 'react-circular-progressbar';
 import '../Data/Colors/Colors.css'
 import '../Data/Colors/Custom.css'
+import '../Data/Typography/histoical.css'
+import Selectgraph from './selectgraph'
 
-const brandPrimary = getStyle('--primary')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
 let tem = []
+
 
 class DashboardShow extends Component{
   constructor(props){
@@ -42,9 +40,19 @@ class DashboardShow extends Component{
       no2:[0,0,0,0,0,0,0],
       so2:[0,0,0,0,0,0,0],
       AQI:0,
-      timedata:[0,0,0,0,0,0,0]
+      timedata:[0,0,0,0,0,0,0],
+      isCheckedPm25:false,
+      graphpm25:false
     }
   }
+
+  
+
+  handleCheckedPM25 () {
+    //this.setState({isCheckedPM25:true});
+  }
+
+
   ColorPM25 = (props) =>{
     let colorpm25
     if(props > 0 & props <=25){
@@ -591,35 +599,29 @@ class DashboardShow extends Component{
   }
     render() {
       var txt = "textaqi"
+      let pm25 = null
+      if(this.state.isCheckedPM25){
+        pm25 = <Col xs="12" sm="6" lg="6">
+        <Card>
+            <CardBody className="pb-0">
+            <Line data={linepm25} options={sparklineChartOpts} width={680} height={250} />
+            </CardBody> 
+        </Card>
+        </Col>
+      }
       let show=null
       this.getdata(this.props.data.data[0],this.props.location)//location change num in array
-      const sparkLineChartData = [
+      const graphpm25 = {
+        labels:this.state.timedata,
+        datasets:
         {
+          label:['PM2.5'],
+          backgroundColor: "#FF8C00",
+          borderColor: "#FF8C00",
           data: [this.state.pm25[0],this.state.pm25[1],this.state.pm25[2],this.state.pm25[3],this.state.pm25[4],this.state.pm25[5],this.state.pm25[6]],
-          label: 'PM2.5',
-        },
-        {
-          data: [this.state.co[0],this.state.co[1],this.state.co[2],this.state.co[3],this.state.co[4],this.state.co[5],this.state.co[6]],
-          label: 'CO',
-        },
-        {
-          data: [this.state.no2[0],this.state.no2[1],this.state.no2[2],this.state.no2[3],this.state.no2[4],this.state.no2[5],this.state.no2[6]],
-          label: 'NO2',
-        },
-        {
-          data: [this.state.pm10[0], this.state.pm10[1], this.state.pm10[2], this.state.pm10[3], this.state.pm10[4], this.state.pm10[5], this.state.pm10[6]],
-          label: 'PM10',
-        },
-        {
-          data: [this.state.o3[0],this.state.o3[1],this.state.o3[2],this.state.o3[3],this.state.o3[4],this.state.o3[5],this.state.o3[6]],
-          label: 'O3',
-        },
-        {
-          data: [this.state.so2[0], this.state.so2[1],this.state.so2[2],this.state.so2[3],this.state.so2[4],this.state.so2[5],this.state.so2[6]],
-          label: 'SO2',
         }
-      ];
-      
+      }
+     
       const sparklineChartOpts = {
         tooltips: {
           enabled: true,
@@ -654,48 +656,60 @@ class DashboardShow extends Component{
         },
       };
 
-        
-      
-      const graphPollution ={
-        labels:this.state.timedata,
+      const linepm25 = {
+        labels:[this.state.timedata[0],this.state.timedata[1],this.state.timedata[2],this.state.timedata[3],this.state.timedata[4],this.state.timedata[5],this.state.timedata[6]],  
         datasets: [{
           label:['PM2.5'],
-          backgroundColor: 'transparent',
-          borderColor: "#FF8C00" ? "#FF8C00" : '#c2cfd6',
           data: [this.state.pm25[0],this.state.pm25[1],this.state.pm25[2],this.state.pm25[3],this.state.pm25[4],this.state.pm25[5],this.state.pm25[6]],
-        },
-        {
+          backgroundColor: "#FF8C00",
+          borderColor: "#FF8C00",
+        }]
+      };
+      const linepm10 = {
+        labels:[this.state.timedata[0],this.state.timedata[1],this.state.timedata[2],this.state.timedata[3],this.state.timedata[4],this.state.timedata[5],this.state.timedata[6]],  
+        datasets: [{
           label:['PM10'],
-          backgroundColor: 'transparent',
-          borderColor: "#330066" ? "#330066" : '#c2cfd6',
           data: [this.state.pm10[0],this.state.pm10[1],this.state.pm10[2],this.state.pm10[3],this.state.pm10[4],this.state.pm10[5],this.state.pm10[6]],
-        },
-        {
+          backgroundColor: "#FF9966",
+          borderColor: "#FF9966",
+        }]
+      };
+      const lineo3 = {
+        labels:[this.state.timedata[0],this.state.timedata[1],this.state.timedata[2],this.state.timedata[3],this.state.timedata[4],this.state.timedata[5],this.state.timedata[6]],  
+        datasets: [{
           label:['O3'],
-          backgroundColor: 'transparent',
-          borderColor: "#FF3366	" ? "#FF3366	" : '#c2cfd6',
           data: [this.state.o3[0],this.state.o3[1],this.state.o3[2],this.state.o3[3],this.state.o3[4],this.state.o3[5],this.state.o3[6]],
-        },
-        {
+          backgroundColor: "#FFCC66",
+          borderColor: "#FFCC66",
+        }]
+      };
+      const lineco = {
+        labels:[this.state.timedata[0],this.state.timedata[1],this.state.timedata[2],this.state.timedata[3],this.state.timedata[4],this.state.timedata[5],this.state.timedata[6]],  
+        datasets: [{
           label:['CO'],
-          backgroundColor: 'transparent',
-          borderColor: "#339900	" ? "#339900	" : '#c2cfd6',
           data: [this.state.co[0],this.state.co[1],this.state.co[2],this.state.co[3],this.state.co[4],this.state.co[5],this.state.co[6]],
-        },
-        {
-          label:['NO2'],
-          backgroundColor: 'transparent',
-          borderColor: "#FFD700" ? "#FFD700" : '#c2cfd6',
+          backgroundColor: "#FF6699",
+          borderColor: "#FF6699",
+        }]
+      };
+      const lineno2 = {
+        labels:[this.state.timedata[0],this.state.timedata[1],this.state.timedata[2],this.state.timedata[3],this.state.timedata[4],this.state.timedata[5],this.state.timedata[6]],  
+        datasets: [{
+          label:['CO'],
           data: [this.state.no2[0],this.state.no2[1],this.state.no2[2],this.state.no2[3],this.state.no2[4],this.state.no2[5],this.state.no2[6]],
-        },
-        {
-          label:['SO2'],
-          backgroundColor: 'transparent',
-          borderColor: "#0066CC" ? "#0066CC" : '#c2cfd6',
+          backgroundColor: "#FF99CC",
+          borderColor: "#FF99CC",
+        }]
+      };
+      const lineso2 = {
+        labels:[this.state.timedata[0],this.state.timedata[1],this.state.timedata[2],this.state.timedata[3],this.state.timedata[4],this.state.timedata[5],this.state.timedata[6]],  
+        datasets: [{
+          label:['CO'],
           data: [this.state.so2[0],this.state.so2[1],this.state.so2[2],this.state.so2[3],this.state.so2[4],this.state.so2[5],this.state.so2[6]],
-        },
-      ]
-      }
+          backgroundColor: "#FF6666",
+          borderColor: "#FF6666",
+        }]
+      };
         const linetemp = {
             labels:[this.state.timedata[0],this.state.timedata[1],this.state.timedata[2],this.state.timedata[3],this.state.timedata[4],this.state.timedata[5],this.state.timedata[6]],  
             datasets: [{
@@ -733,15 +747,15 @@ class DashboardShow extends Component{
               <CardBody className="pb-0">
               <Row>
               <Col xs="12" sm="6" lg="2">
-              <p align="center"><strong>PM2.5</strong></p>
+              <p align="center"><strong className="pollution-txt">PM2.5 (ppb)</strong></p>
               <CircularProgressbar
                       className={this.ColorGraphPM25(this.state.pm25[6])}
                       background
                       percentage={this.state.pm25[6]*100/91}
-                      text={this.state.pm25[6]}/>
+                      text={this.state.pm25[6]} />
               </Col>
               <Col xs="12" sm="6" lg="2">
-              <p align="center"><strong>PM10</strong></p>
+              <p align="center"><strong className="pollution-txt">PM10 (ppb)</strong></p>
               <CircularProgressbar
                       className={this.ColorGraphPM10(this.state.pm10[6])}
                       background
@@ -749,7 +763,7 @@ class DashboardShow extends Component{
                       text={this.state.pm10[6]}/>
               </Col>
               <Col xs="12" sm="6" lg="2">
-              <p align="center"><strong>O3</strong></p>
+              <p align="center"><strong className="pollution-txt">O3 (ppb)</strong></p>
               <CircularProgressbar
                       className={this.ColorGraphNO2(this.state.o3[6])}
                       background
@@ -757,7 +771,7 @@ class DashboardShow extends Component{
                       text={this.state.o3[6]}/>
               </Col>
               <Col xs="12" sm="6" lg="2">
-              <p align="center"><strong>CO</strong></p>
+              <p align="center"><strong className="pollution-txt">CO (ppm)</strong></p>
               <CircularProgressbar
                       className={this.ColorGraphCO(this.state.co[6])}
                       background
@@ -765,7 +779,7 @@ class DashboardShow extends Component{
                       text={this.state.co[6]}/>
               </Col>
               <Col xs="12" sm="6" lg="2">
-              <p align="center"><strong>NO2</strong></p>
+              <p align="center"><strong className="pollution-txt">NO2 (ppb)</strong></p>
               <CircularProgressbar
                       className={this.ColorGraphNO2(this.state.no2[6])}
                       background
@@ -773,7 +787,7 @@ class DashboardShow extends Component{
                       text={this.state.no2[6]}/>
               </Col>
               <Col xs="12" sm="6" lg="2">
-              <p align="center"><strong>SO2</strong></p>
+              <p align="center"><strong className="pollution-txt">SO2 (ppb)</strong></p>
               <CircularProgressbar
                       className={this.ColorGraphSO2(this.state.so2[6])}
                       background
@@ -781,85 +795,9 @@ class DashboardShow extends Component{
                       text={this.state.so2[6]}/>
               </Col>
               </Row>
-              <Row>
-                  {/*<Col xs="12" sm="6" lg="6">
-                  <div className="clearfix">
-                          <div className="float-left">
-                            <strong>Dust PM2.5</strong>
-                          </div>
-                          <div className="float-right">
-                            <small className="text-muted">{this.state.pm25[6]}</small>
-                          </div>
-                        </div>
-                        <Progress className="progress-xs" color={this.ColorPM25(this.state.pm25[6])} value={this.state.pm25[6]*100/91} />
-          </Col>*/}
-                  {/*<Col xs="12" sm="6" lg="6">
-                  <div className="clearfix">
-                          <div className="float-left">
-                            <strong>Dust PM10</strong>
-                          </div>
-                          <div className="float-right">
-                            <small className="text-muted">{this.state.pm10[6]}</small>
-                          </div>
-                        </div>
-                        <Progress className="progress-xs" color={this.ColorPM10(this.state.pm10[6])} value={this.state.pm10[6]*100/181} />
-          </Col>*/}
-                {/*</Row><br/>
-                <Row>*/}
-                  {/*<Col xs="12" sm="6" lg="6">
-                  <div className="clearfix">
-                          <div className="float-left">
-                            <strong>OZone</strong>
-                          </div>
-                          <div className="float-right">
-                            <small className="text-muted">{this.state.o3[6]}</small>
-                          </div>
-                        </div>
-                        <Progress className="progress-xs" color={this.ColorO3([this.state.o3[6]])} value={this.state.o3[6]*100/121} />
-          </Col>*/}
-                  {/*<Col xs="12" sm="6" lg="6">
-                  <div className="clearfix">
-                          <div className="float-left">
-                            <strong>Carbonmonoxide</strong>
-                          </div>
-                          <div className="float-right">
-                            <small className="text-muted">{this.state.co[6]}</small>
-                          </div>
-                        </div>
-                        <Progress className="progress-xs" color={this.ColorCO(this.state.co[6])} value={this.state.co[6]*100/30.1}/>
-          </Col>*/}
-                {/*</Row><br/>
-                <Row>*/}
-                  {/*<Col xs="12" sm="6" lg="6">
-                  <div className="clearfix">
-                          <div className="float-left">
-                            <strong>Nitrogendioxide</strong>
-                          </div>
-                          <div className="float-right">
-                            <small className="text-muted">{this.state.no2[6]}</small>
-                          </div>
-                        </div>
-                        <Progress className="progress-xs" color={this.ColorNO2(this.state.no2[6])} value={this.state.no2[6]*100/341} />
-          </Col>*/}
-                  {/*<Col xs="12" sm="6" lg="6">
-                  <div className="clearfix">
-                          <div className="float-left">
-                            <strong>Sulfurdioxide</strong>
-                          </div>
-                          <div className="float-right">
-                            <small className="text-muted">{this.state.so2[6]}</small>
-                          </div>
-                        </div>
-                        <Progress className="progress-xs" color={this.ColorSO2(this.state.so2[6])} value={this.state.so2[6]*100/401} />
-          </Col>*/}
-          <Col xs="12" sm="6" lg="12">
-                <Card>
-                    <CardBody className="pb-0">
-                    <Line data={graphPollution} options={sparklineChartOpts} width={680} height={250} />
-                    </CardBody> 
-                </Card>
-                </Col>
-            </Row>
+              <Selectgraph timedata={this.state.timedata} pm25={this.state.pm25} pm10={this.state.pm10} o3={this.state.o3}
+                           co={this.state.co} no2={this.state.no2} so2={this.state.so2}/>
+                  <br/>
             </CardBody>
             </Card>
                <Row >

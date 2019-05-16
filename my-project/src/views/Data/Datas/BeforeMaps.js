@@ -75,7 +75,7 @@ class Datas extends Component{
       this.getdata(this.props.data.data[0])//location change num in array
         return (
           <div className="animated fadeIn">
-            <Maps colorKmitl={this.ColorAQI(this.state.aqi[0])} colorLad={this.ColorAQI(this.state.aqi[1])}/>
+            <Maps aqikmitl={this.state.aqi[0]} aqilad={this.state.aqi[1]} colorKmitl={this.ColorAQI(this.state.aqi[0])} colorLad={this.ColorAQI(this.state.aqi[1])}/>
           </div>
         );
       }

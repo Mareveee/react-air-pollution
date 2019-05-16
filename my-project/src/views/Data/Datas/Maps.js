@@ -37,9 +37,11 @@ class Datas extends Component{
                  zoom={10}>
               <Marker
                 position={{lat: 13.7289668, lng: 100.77546009999999}}
+                title={"AQI = ".concat(String(this.props.aqikmitl))}
                 icon={iconkmitl}/>
               <Marker
                 position={{lat: 13.7589668, lng: 100.59546009999999}}
+                title={"AQI = ".concat(String(this.props.aqilad))}
                 icon={iconLad}/>
             </Map>
             </Col></CardBody>

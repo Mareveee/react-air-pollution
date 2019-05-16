@@ -445,46 +445,46 @@ txtRangePredict1hr = (props) =>{
   return txt
 }
 setday = (props) =>{
-  if(props==0){
+  if(props===0){
     return "monday"
   }
-  else if(props==1){
+  else if(props===1){
     return "tuesday"
   }
-  else if(props==2){
+  else if(props===2){
     return "wednesday"
   }
-  else if(props==3){
+  else if(props===3){
     return "thursday"
   }
-  else if(props==4){
+  else if(props===4){
     return "friday"
   }
-  else if(props==5){
+  else if(props===5){
     return "saturday"
   }
-  else if(props==6){
+  else if(props===6){
     return "sunday"
   }
 }
 
 settoday = (props) =>{
-  if(props==0){
+  if(props===0){
     return "sunday"
   }
-  else if(props==1){
+  else if(props===1){
     return "monday"
   }
-  else if(props==2){
+  else if(props===2){
     return "tuesday"
   }
-  else if(props==3){
+  else if(props===3){
     return "wednesday"
   }
-  else if(props==4){
+  else if(props===4){
     return "thursday"
   }
-  else if(props==5){
+  else if(props===5){
     return "friday"
   }
   else if(props==6){
@@ -974,8 +974,8 @@ settext=(props)=>{
                 <Row>
                   <Col xs="12" sm="6" lg="2"></Col>
                   <Col xs="12" sm="6" lg="8">
-                  <Col xs="12" sm="6" lg="10">
-                  <strong className={txt.concat(this.coloraqinow(this.state.aqi[6]))}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Air Quality Index</strong>
+                  <Col xs="12" sm="6" lg="12">
+                  <p align="center"><strong className={txt.concat(this.coloraqinow(this.state.aqi[6]))}>Air Quality Index</strong></p>
                   </Col>
                   <CircularProgressbar
                       className={this.coloraqinow(this.state.aqi[6])}
@@ -985,7 +985,7 @@ settext=(props)=>{
                   <Row>
                     <Col xs="12" sm="6" lg="4">
                     </Col>
-                  <strong className={txt.concat(this.coloraqinow(this.state.aqi[6]))}>{this.txtaqinow(this.state.aqi[6])}</strong>
+                  <p align="center"><strong className={txt.concat(this.coloraqinow(this.state.aqi[6]))}>{this.txtaqinow(this.state.aqi[6])}</strong></p>
                   </Row>
                   </Col>
                 </Row>
