@@ -19,19 +19,19 @@ class Datas extends Component{
   ColorAQI = (props) =>{
     let colorpm10
     if(props >= 0 & props <=25){
-      colorpm10 = '#00BFFF'
+      colorpm10 = '00BFFF'
     }
     else if(props > 25 & props <=50){
-      colorpm10 = '#66CC66'
+      colorpm10 = '66CC66'
     }
     else if(props > 50 & props <=100){
-      colorpm10 = '#FFCC33'
+      colorpm10 = 'FFCC33'
     }
     else if(props > 100 & props <= 150){
-      colorpm10 = '#FF9933'
+      colorpm10 = 'FF9933'
     }
     else if(props > 150){
-      colorpm10 = '#FF0033'
+      colorpm10 = 'FF0033'
     }
     return colorpm10
   }
